@@ -3,10 +3,8 @@ package fr.ubx.poo.ubomb.view;
 import fr.ubx.poo.ubomb.engine.GameEngine;
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.launcher.GameLauncher;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import fr.ubx.poo.ubomb.launcher.MapLevel;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -14,12 +12,12 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
+import java.io.*;
 
 public class GameLauncherView extends BorderPane {
     private final FileChooser fileChooser = new FileChooser();
 
-    public GameLauncherView(Stage stage) {
+    public GameLauncherView(Stage stage)  {
         // Create menu
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
@@ -46,9 +44,16 @@ public class GameLauncherView extends BorderPane {
         loadItem.setOnAction(e -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
-                // TODO
-                System.err.println("[TODO] Not implemented");
+                Game game = null;
+                try {
+                    game = GameLauncher.load(file);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                GameEngine engine = new GameEngine(game, stage);
+                engine.start();
             }
+
         });
 
 

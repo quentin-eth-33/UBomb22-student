@@ -22,4 +22,3 @@ public class SpritePlayer extends Sprite {
         setImage(image);
     }
 }
-

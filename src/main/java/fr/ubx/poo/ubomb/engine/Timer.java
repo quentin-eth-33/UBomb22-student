@@ -4,6 +4,8 @@
 
 package fr.ubx.poo.ubomb.engine;
 
+import java.io.Serializable;
+
 public class Timer {
     private final long duration;
     private long startTime;
@@ -32,6 +34,9 @@ public class Timer {
         }
     }
 
+    public void setRemaining(long remaining){
+        this.remaining = remaining;
+    }
     public long remaining() {
         return remaining;
     }

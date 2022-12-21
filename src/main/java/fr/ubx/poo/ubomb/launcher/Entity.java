@@ -24,9 +24,7 @@ public enum Entity {
         this.code = c;
     }
 
-    public char getCode() {
-        return this.code;
-    }
+    public char getCode() { return this.code; }
 
     public static Entity fromCode(char c) {
         for (Entity entity : values()) {

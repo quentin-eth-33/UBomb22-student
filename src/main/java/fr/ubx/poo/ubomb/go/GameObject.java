@@ -13,6 +13,8 @@ public abstract class GameObject implements Walkable {
     private boolean modified = true;
     private Position position;
 
+    private boolean isAccessible =true;
+
     public GameObject(Game game, Position position) {
         this.game = game;
         this.position = position;
@@ -49,4 +51,12 @@ public abstract class GameObject implements Walkable {
 
     public void explode() {
     }
+
+    public void setIsAccessible(boolean isAccessible) {
+        this.isAccessible = isAccessible;
+    }
+    public boolean getIsAccessible() {
+        return isAccessible;
+    }
+
 }

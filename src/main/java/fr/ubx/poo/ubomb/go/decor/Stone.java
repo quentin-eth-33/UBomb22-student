@@ -9,5 +9,6 @@ import fr.ubx.poo.ubomb.game.Position;
 public class Stone extends Decor {
     public Stone(Position position) {
         super(position);
+        setIsAccessible(false);
     }
 }

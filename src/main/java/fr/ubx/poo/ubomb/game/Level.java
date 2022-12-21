@@ -1,15 +1,13 @@
 package fr.ubx.poo.ubomb.game;
 
-import fr.ubx.poo.ubomb.go.decor.Decor;
-import fr.ubx.poo.ubomb.go.decor.Stone;
-import fr.ubx.poo.ubomb.go.decor.Tree;
-import fr.ubx.poo.ubomb.go.decor.bonus.Key;
+import fr.ubx.poo.ubomb.go.GameObject;
+import fr.ubx.poo.ubomb.go.decor.bonus.*;
+import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.launcher.Entity;
 import fr.ubx.poo.ubomb.launcher.MapLevel;
+import fr.ubx.poo.ubomb.go.character.Monster;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Level implements Grid {
 
@@ -19,8 +17,12 @@ public class Level implements Grid {
 
     private final MapLevel entities;
 
+    private final List<Monster> monsters = new LinkedList<>();
 
-    private final Map<Position, Decor> elements = new HashMap<>();
+    private final Map<Position, GameObject> elements = new HashMap<>();
+
+    private Position fromNextLevel;
+    private Position fromPreviusLevel;
 
     public Level(MapLevel entities) {
         this.entities = entities;
@@ -41,10 +43,33 @@ public class Level implements Grid {
                     case Key:
                         elements.put(position, new Key(position));
                         break;
-                    case Empty:
+                    case Princess:
+                        elements.put(position, new Princess(position));
                         break;
+
+                    case Monster:
+                        elements.put(position, new Monster(position));
+                        break;
+
+                    case DoorNextClosed:
+                        elements.put(position, new DoorNextClosed(position));
+                        fromNextLevel = position;
+                        break;
+
+                    case DoorPrevOpened:
+                        elements.put(position, new DoorPrevOpened(position));
+                        fromPreviusLevel = position;
+                        break;
+
+                    case DoorNextOpened:
+                        elements.put(position, new DoorNextOpened(position));
+                        fromNextLevel = position;
+                        break;
+
+                    case Empty: break;
                     default:
-                        throw new RuntimeException("EntityCode " + entity.name() + " not processed");
+                        break;
+                    //throw new RuntimeException("EntityCode " + entity.name() + " not processed");
                 }
             }
     }
@@ -59,8 +84,16 @@ public class Level implements Grid {
         return this.height;
     }
 
-    public Decor get(Position position) {
+    public GameObject get(Position position) {
         return elements.get(position);
+    }
+
+    public Position getFromNextLevel() {
+        return fromNextLevel;
+    }
+
+    public Position getFromPreviusLevel() {
+        return fromPreviusLevel;
     }
 
     @Override
@@ -68,7 +101,7 @@ public class Level implements Grid {
         elements.remove(position);
     }
 
-    public Collection<Decor> values() {
+    public Collection<GameObject> values() {
         return elements.values();
     }
 
@@ -79,12 +112,16 @@ public class Level implements Grid {
     }
 
     @Override
-    public void set(Position position, Decor decor) {
+    public void set(Position position, GameObject gameObject) {
         if (!inside(position))
             throw new IllegalArgumentException("Illegal Position");
-        if (decor != null)
-            elements.put(position, decor);
+        if (gameObject != null)
+            elements.put(position, gameObject);
     }
-
-
+    public List<Monster> getMonsters() {
+        return this.monsters;
+    }
+    public void addMonster(Monster monster)  {
+        monsters.add(monster);
+    }
 }

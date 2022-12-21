@@ -6,12 +6,12 @@ package fr.ubx.poo.ubomb.engine;
 
 import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Game;
+import fr.ubx.poo.ubomb.game.Level;
 import fr.ubx.poo.ubomb.game.Position;
+import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
-import fr.ubx.poo.ubomb.view.ImageResource;
-import fr.ubx.poo.ubomb.view.Sprite;
-import fr.ubx.poo.ubomb.view.SpriteFactory;
-import fr.ubx.poo.ubomb.view.SpritePlayer;
+import fr.ubx.poo.ubomb.go.decor.DoorNextOpened;
+import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -38,12 +38,16 @@ public final class GameEngine {
     private static AnimationTimer gameLoop;
     private final Game game;
     private final Player player;
+
     private final List<Sprite> sprites = new LinkedList<>();
     private final Set<Sprite> cleanUpSprites = new HashSet<>();
     private final Stage stage;
+
+    private Scene scenes[] ;
     private StatusBar statusBar;
-    private Pane layer;
+    private Pane[] layer;
     private Input input;
+    private int currentLevel = 1;
 
     public GameEngine(Game game, final Stage stage) {
         this.stage = stage;
@@ -54,33 +58,50 @@ public final class GameEngine {
     }
 
     private void initialize() {
-        Group root = new Group();
-        layer = new Pane();
+        layer = new Pane[game.getNbLevels()];
+        scenes = new Scene[game.getNbLevels()];
+        for (int i = 1; i <= game.getNbLevels(); i++) {
+            layer[i-1] = new Pane();
+            Group root = new Group();
 
-        int height = game.grid().height();
-        int width = game.grid().width();
-        int sceneWidth = width * ImageResource.size;
-        int sceneHeight = height * ImageResource.size;
-        Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
-        scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+            int height = game.grid(i).height();
+            int width = game.grid(i).width();
+            int sceneWidth = width * ImageResource.size;
+            int sceneHeight = height * ImageResource.size;
 
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.sizeToScene();
-        stage.hide();
-        stage.show();
+            scenes[i-1] = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
+            scenes[i-1].getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 
-        input = new Input(scene);
-        root.getChildren().add(layer);
-        statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
+            if (i==1) {
+                stage.setScene(scenes[0]);
+                stage.setResizable(false);
+                stage.sizeToScene();
+                stage.hide();
+                stage.show();
+                input = new Input(scenes[0]);
+                statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
 
-        // Create sprites
-        for (var decor : game.grid().values()) {
-            sprites.add(SpriteFactory.create(layer, decor));
-            decor.setModified(true);
+            }
+
+            root.getChildren().add(layer[i-1]);
+            statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
+
+            // Create sprites
+            for (var decor : game.grid(i).values()) {
+                if (!(decor instanceof Monster)) {
+                    sprites.add(SpriteFactory.create(layer[i-1], decor));
+                    decor.setModified(true);
+                }
+            }
+
+
+            for (Monster monster : ((Level)this.game.grid(i)).getMonsters()) {
+                monster.setInLevel(i);
+                sprites.add(new SpriteMonster(layer[i-1], monster));
+            }
         }
+        sprites.add(new SpritePlayer(layer[0], player));
 
-        sprites.add(new SpritePlayer(layer, player));
     }
 
     void buildAndSetGameLoop() {
@@ -97,6 +118,7 @@ public final class GameEngine {
 
                 // Graphic update
                 cleanupSprites();
+                addSprite();
                 render();
                 statusBar.update(game);
             }
@@ -107,6 +129,7 @@ public final class GameEngine {
         // Check explosions of bombs
     }
 
+
     private void animateExplosion(Position src, Position dst) {
         ImageView explosion = new ImageView(ImageResource.EXPLOSION.getImage());
         TranslateTransition tt = new TranslateTransition(Duration.millis(200), explosion);
@@ -115,9 +138,9 @@ public final class GameEngine {
         tt.setToX(dst.x() * Sprite.size);
         tt.setToY(dst.y() * Sprite.size);
         tt.setOnFinished(e -> {
-            layer.getChildren().remove(explosion);
+            layer[player.getInLevel()].getChildren().remove(explosion);
         });
-        layer.getChildren().add(explosion);
+        layer[player.getInLevel()].getChildren().add(explosion);
         tt.play();
     }
 
@@ -142,6 +165,8 @@ public final class GameEngine {
             player.requestMove(Direction.RIGHT);
         } else if (input.isMoveUp()) {
             player.requestMove(Direction.UP);
+        } else if (input.isKey()) {
+            player.requestOpen();
         }
         input.clear();
     }
@@ -166,18 +191,67 @@ public final class GameEngine {
 
 
     private void update(long now) {
-        player.update(now);
+        Direction direction;
 
-        if (player.getLives() == 0) {
+        for(int i =1 ; i<=this.game.getNbLevels(); i++ )
+        {
+            for(Monster monster : ((Level)this.game.grid(i)).getMonsters()){
+                monster.getTimerMoveMonster().update(now);
+                if(!monster.getTimerMoveMonster().isRunning()) {
+                    direction = Direction.random();
+                    monster.requestMove(direction);
+                    // Il faut changer la formule du Timer
+                    monster.setTimerMoveMonster(new Timer(/*(long)Math.pow((double)1,(double)10)/monster.getMonsterVelocity())*/ (monster.getMonsterVelocity())*200));
+                    monster.getTimerMoveMonster().start();
+                }
+                monster.update(now);
+            }
+        }
+
+        if( player.getInLevel()!= currentLevel) {
+            boolean next = currentLevel < player.getInLevel();
+            Position newPlayerPosition;
+
+            currentLevel = player.getInLevel();
+            stage.setScene(scenes[currentLevel-1]);
+            input = new Input(scenes[currentLevel-1]);
+            stage.sizeToScene();
+
+
+            if (next)
+                newPlayerPosition = new Position(((Level)game.grid(currentLevel)).getFromPreviusLevel());
+            else
+                newPlayerPosition = new Position(((Level)game.grid(currentLevel)).getFromNextLevel());
+
+
+            player.setPosition(newPlayerPosition);
+            int index =0;
+            for(Sprite sprite : sprites){
+                if(sprite instanceof SpritePlayer){
+                    cleanUpSprites.add(sprite);
+                }
+                index++;
+            }
+            sprites.add(new SpritePlayer(layer[currentLevel-1], player));
+
+        }
+
+        player.update(now);
+        if (player.getLives() <= 0) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
+        else if(player.getPrincessFound() == true){
+            gameLoop.stop();
+            showMessage("Gagné!", Color.GREEN);
+        }
+
     }
 
     public void cleanupSprites() {
         sprites.forEach(sprite -> {
             if (sprite.getGameObject().isDeleted()) {
-                game.grid().remove(sprite.getPosition());
+                game.grid(this.player.getInLevel()).remove(sprite.getPosition()); //pas sur de player.getInlevel()
                 cleanUpSprites.add(sprite);
             }
         });
@@ -190,6 +264,25 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
     }
 
+    public void addSprite(){
+        // A corriger
+        for(int i =1 ; i<=this.game.getNbLevels(); i++ )
+        {
+            for (var decor : game.grid(i).values()) {
+                if(decor instanceof DoorNextOpened doorNextOpened)
+                {
+                    if(!(doorNextOpened.getIsAddToSprite()))
+                    {
+                        // A corriger
+                        sprites.add(SpriteFactory.create(layer[i-1], decor));
+                        decor.setModified(true);
+                        doorNextOpened.setIsAddToSprite(true);
+                    }
+                }
+            }
+        }
+
+    }
     public void start() {
         gameLoop.start();
     }

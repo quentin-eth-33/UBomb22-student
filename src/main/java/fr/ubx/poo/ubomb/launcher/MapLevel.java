@@ -1,5 +1,7 @@
 package fr.ubx.poo.ubomb.launcher;
 
+import fr.ubx.poo.ubomb.game.Grid;
+
 public class MapLevel {
 
     private final int width;
@@ -13,8 +15,7 @@ public class MapLevel {
     }
 
     public int width() {
-        return width;
-    }
+        return width;    }
 
     public int height() {
         return height;

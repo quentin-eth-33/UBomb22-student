@@ -59,6 +59,8 @@ public enum ImageResource {
     DIGIT_9("banner_9.jpg"),
 
 
+
+
     // For the editor
     DOOR_OPENED_MINUS("door_opened_minus.png"),
     DOOR_OPENED_PLUS("door_opened_plus.png"),
@@ -75,9 +77,9 @@ public enum ImageResource {
             this.image = new Image(ImageResource.class.getResourceAsStream("/images/" + file));
             if (image.getWidth() != size && image.getHeight() != size) {
                 String msg = "File " + file + " does not have the correct size " + image.getWidth() + " x " + image.getHeight();
-                throw new RuntimeException(msg);
+                throw new RuntimeException (msg);
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException  e) {
             System.err.println("Resource not found : " + file);
             throw e;
         }
@@ -88,4 +90,3 @@ public enum ImageResource {
     }
 
 }
-
