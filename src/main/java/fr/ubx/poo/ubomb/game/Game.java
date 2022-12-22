@@ -31,8 +31,8 @@ public class Game {
                 if (valueGrid instanceof Monster monster) {
                     monster = new Monster(this, ((Monster) valueGrid).getPosition());
                     monster.setMonsterVelocity(configuration.monsterVelocity());
-                    currentGrid.set(monster.getPosition(), monster);
-                    currentGrid.addMonster(monster);
+                    this.grid[i-1].set(monster.getPosition(), monster);
+                    ((Level)(this.grid[i-1])).addMonster(monster); // Jsp pq mais il faut qu'on ajoute des monstres qui pnt leur attribut "game" différent de null
                 }
             }
         }

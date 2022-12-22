@@ -85,7 +85,6 @@ public class Player extends Character implements Movable, TakeVisitor {
         }
         else if(next instanceof Monster)
         {
-            /*
             if(!(getTimerInvincibilityTime().isRunning())){
                 this.setLives(getLives()-1);
                 getTimerInvincibilityTime().setRemaining(getInvincibilityTime());
@@ -93,8 +92,8 @@ public class Player extends Character implements Movable, TakeVisitor {
             }
             else{
                 System.out.println("JE SUIS INVINCIBLE!!!");
-            }*/
-            this.setLives(getLives()-1);
+            }
+
         }
 
         if( next instanceof DoorNextOpened) {

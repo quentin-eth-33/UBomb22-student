@@ -6,6 +6,7 @@ import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.decor.bonus.Bonus;
+import fr.ubx.poo.ubomb.go.decor.bonus.Princess;
 
 public class Monster extends Character {
 
@@ -53,21 +54,50 @@ public class Monster extends Character {
     }
 
     @Override
+    public boolean canMove(Direction direction) {
+        // Need to be updated ;-)
+        Position nextPos = direction.nextPosition(getPosition());
+
+        GameObject next = game.grid(inLevel).get(nextPos);
+
+        if (next != null){
+            if(next instanceof Princess)
+            {
+                return false;
+            }
+            return next.getIsAccessible();
+
+        }
+        else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
+            return false;
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    @Override
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid(inLevel).get(nextPos);
 
         // Surement faux
-
+/*
         if (next instanceof Player) {
             ((Player)next).setLives(((Player)next).getLives()-1);
         }
 
+
+ */
+
+        game.grid(inLevel).set(nextPos, this);
+        game.grid(inLevel).remove(getPosition());
         setPosition(nextPos);
     }
 
     @Override
     public String toString() {
-        return " MONSTER | Position X: " + this.getPosition().getX() + " | Position Y: "+this.getPosition().getY()+" | Vie: "+this.getLives()+" | Level: "+this.getInLevel();
+        return " MONSTER "+this.hashCode()+ " | Position X: " + this.getPosition().getX() + " | Position Y: "+this.getPosition().getY()+" | Vie: "+this.getLives()+" | Level: "+this.getInLevel();
     }
 }
