@@ -69,6 +69,7 @@ public final class GameEngine {
             int sceneWidth = width * ImageResource.size;
             int sceneHeight = height * ImageResource.size;
 
+
             scenes[i-1] = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
             scenes[i-1].getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 
@@ -94,11 +95,13 @@ public final class GameEngine {
                 }
             }
 
-
+            System.out.println("Taille Liste Monster: "+((Level)this.game.grid(i)).getMonsters().size());
             for (Monster monster : ((Level)this.game.grid(i)).getMonsters()) {
                 monster.setInLevel(i);
                 sprites.add(new SpriteMonster(layer[i-1], monster));
             }
+
+
         }
         sprites.add(new SpritePlayer(layer[0], player));
 
@@ -200,11 +203,13 @@ public final class GameEngine {
                 if(!monster.getTimerMoveMonster().isRunning()) {
                     direction = Direction.random();
                     monster.requestMove(direction);
+
                     // Il faut changer la formule du Timer
                     monster.setTimerMoveMonster(new Timer(/*(long)Math.pow((double)1,(double)10)/monster.getMonsterVelocity())*/ (monster.getMonsterVelocity())*200));
                     monster.getTimerMoveMonster().start();
                 }
                 monster.update(now);
+
             }
         }
 
@@ -225,12 +230,10 @@ public final class GameEngine {
 
 
             player.setPosition(newPlayerPosition);
-            int index =0;
             for(Sprite sprite : sprites){
                 if(sprite instanceof SpritePlayer){
                     cleanUpSprites.add(sprite);
                 }
-                index++;
             }
             sprites.add(new SpritePlayer(layer[currentLevel-1], player));
 
@@ -265,7 +268,6 @@ public final class GameEngine {
     }
 
     public void addSprite(){
-        // A corriger
         for(int i =1 ; i<=this.game.getNbLevels(); i++ )
         {
             for (var decor : game.grid(i).values()) {
@@ -273,7 +275,6 @@ public final class GameEngine {
                 {
                     if(!(doorNextOpened.getIsAddToSprite()))
                     {
-                        // A corriger
                         sprites.add(SpriteFactory.create(layer[i-1], decor));
                         decor.setModified(true);
                         doorNextOpened.setIsAddToSprite(true);

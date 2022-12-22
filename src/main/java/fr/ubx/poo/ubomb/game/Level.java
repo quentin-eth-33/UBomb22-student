@@ -48,7 +48,9 @@ public class Level implements Grid {
                         break;
 
                     case Monster:
-                        elements.put(position, new Monster(position));
+                        Monster monster = new Monster(position);
+                        elements.put(position, monster);
+                        //monsters.add(monster); // Ne fonctionne --> il faut que monster ait une game qui lui est associé mais jsp pq
                         break;
 
                     case DoorNextClosed:

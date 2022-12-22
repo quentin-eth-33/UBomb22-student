@@ -23,17 +23,21 @@ public class Game {
         this.grid = grid;
         this.nbLevels = grid.length;
         player = new Player(this, configuration.playerPosition());
-        for(int i = 1 ;i < nbLevels; i++) {
+
+        for(int i = 1 ;i <= nbLevels; i++) { // FDP t'as oublié le "=" dans "<=" !!!!!!!
             Level currentGrid = (Level) this.grid(i);
+
             for (var valueGrid : currentGrid.values()) {
-                if (valueGrid instanceof Monster) {
-                    Monster monster = new Monster(this, ((Monster) valueGrid).getPosition());
+                if (valueGrid instanceof Monster monster) {
+                    monster = new Monster(this, ((Monster) valueGrid).getPosition());
                     monster.setMonsterVelocity(configuration.monsterVelocity());
                     currentGrid.set(monster.getPosition(), monster);
                     currentGrid.addMonster(monster);
                 }
             }
         }
+
+
     }
 
     public Configuration configuration() {

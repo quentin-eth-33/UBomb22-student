@@ -78,8 +78,6 @@ public class Player extends Character implements Movable, TakeVisitor {
     public void doMove(Direction direction) {
         // This method is called only if the move is possible, do not check again
         Position nextPos = direction.nextPosition(getPosition());
-        System.out.println("Nombre de vie: "+getLives());
-        System.out.println("----------------------");
         GameObject next = game.grid(inLevel).get(nextPos);
 
         if (next instanceof Bonus bonus) {
@@ -87,6 +85,7 @@ public class Player extends Character implements Movable, TakeVisitor {
         }
         else if(next instanceof Monster)
         {
+            /*
             if(!(getTimerInvincibilityTime().isRunning())){
                 this.setLives(getLives()-1);
                 getTimerInvincibilityTime().setRemaining(getInvincibilityTime());
@@ -94,7 +93,8 @@ public class Player extends Character implements Movable, TakeVisitor {
             }
             else{
                 System.out.println("JE SUIS INVINCIBLE!!!");
-            }
+            }*/
+            this.setLives(getLives()-1);
         }
 
         if( next instanceof DoorNextOpened) {
@@ -105,6 +105,10 @@ public class Player extends Character implements Movable, TakeVisitor {
             inLevel--;
         }
         setPosition(nextPos);
+    }
+    @Override
+    public String toString() {
+        return " PLAYER | Position X: " + this.getPosition().getX() + " | Position Y: "+this.getPosition().getY()+" | Vie: "+this.getLives();
     }
 
 

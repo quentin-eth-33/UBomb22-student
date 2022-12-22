@@ -30,6 +30,10 @@ public class Monster extends Character {
         this.setLives(1);
         monsterVelocity =5;
         setInvincibilityTime(1000);
+
+        // Il faut changer la formule du Timer
+        timerMoveMonster = new Timer(/*(long)Math.pow((double)1,(double)10)/monsterVelocity*/monsterVelocity*200);
+        timerMoveMonster.start();
     }
 
     public Timer getTimerMoveMonster(){
@@ -54,9 +58,16 @@ public class Monster extends Character {
         GameObject next = game.grid(inLevel).get(nextPos);
 
         // Surement faux
+
         if (next instanceof Player) {
             ((Player)next).setLives(((Player)next).getLives()-1);
         }
+
         setPosition(nextPos);
+    }
+
+    @Override
+    public String toString() {
+        return " MONSTER | Position X: " + this.getPosition().getX() + " | Position Y: "+this.getPosition().getY()+" | Vie: "+this.getLives()+" | Level: "+this.getInLevel();
     }
 }

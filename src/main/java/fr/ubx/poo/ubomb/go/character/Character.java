@@ -110,6 +110,7 @@ public abstract class Character extends GameObject{
             if (canMove(this.getDirection())) {
 
                 doMove(this.getDirection());
+                System.out.println(this.toString());
             }
         }
         this.setMoveRequested(false);
