@@ -44,7 +44,7 @@ public final class GameEngine {
     private final Stage stage;
 
     private Scene scenes[] ;
-    private StatusBar statusBar;
+    private List<StatusBar> listStatusBar = new LinkedList<>();
     private Pane[] layer;
     private Input input;
     private int currentLevel = 1;
@@ -80,12 +80,13 @@ public final class GameEngine {
                 stage.hide();
                 stage.show();
                 input = new Input(scenes[0]);
-                statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
+                //listStatusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
 
             }
 
             root.getChildren().add(layer[i-1]);
-            statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
+            int indice = i-1;
+            listStatusBar.add(new StatusBar(root, sceneWidth, sceneHeight, game));
 
             // Create sprites
             for (var decor : game.grid(i).values()) {
@@ -123,7 +124,13 @@ public final class GameEngine {
                 cleanupSprites();
                 addSprite();
                 render();
-                statusBar.update(game);
+
+
+                listStatusBar.forEach(statusBar -> {
+                    statusBar.update(game);
+                });
+
+
             }
         };
     }
