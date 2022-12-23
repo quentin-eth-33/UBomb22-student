@@ -10,7 +10,7 @@ public interface TakeVisitor {
 
     default void take(BombNumberDec db) {}
 
-    default void take(AddLife al) {}
+    default void take(Heart al) {}
 
     default void take(Bomb bomb) {}
 

@@ -56,7 +56,7 @@ public class Player extends Character implements Movable, TakeVisitor {
     }
 
     @Override
-    public void take(AddLife al) {
+    public void take(Heart al) {
         setLives(this.getLives()+1);
     }
 
