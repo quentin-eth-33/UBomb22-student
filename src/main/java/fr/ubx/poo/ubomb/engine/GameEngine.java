@@ -90,6 +90,7 @@ public final class GameEngine {
 
             // Create sprites
             for (var decor : game.grid(i).values()) {
+                System.out.println("Objet: "+decor);
                 if (!(decor instanceof Monster)) {
                     sprites.add(SpriteFactory.create(layer[i-1], decor));
                     decor.setModified(true);

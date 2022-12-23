@@ -76,10 +76,12 @@ public class Level implements Grid {
                     case BombNumberDec:
                         elements.put(position, new BombNumberDec(position));
                         break;
+
                     case BombRangeDec:
                         elements.put(position, new BombRangeDec(position));
                         break;
-
+                    case Heart:
+                        elements.put(position, new Heart(position));
                     case Empty: break;
                     default:
                         break;

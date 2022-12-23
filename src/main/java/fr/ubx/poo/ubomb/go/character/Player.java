@@ -49,32 +49,46 @@ public class Player extends Character implements Movable, TakeVisitor {
     @Override
     public void take(BombNumberInc ab) {
         this.bombBagCapacity ++;
+        ab.remove();
     }
     @Override
     public void take(BombNumberDec db) {
-        this.bombBagCapacity --;
+        if(bombBagCapacity>0){
+            this.bombBagCapacity --;
+            db.remove();
+        }
+
     }
 
     @Override
     public void take(Heart al) {
         setLives(this.getLives()+1);
+        al.remove();
     }
 
     @Override
     public void take(Bomb bomb) {
         if (bombs.size() < bombBagCapacity)
+        {
             bombs.add(bomb);
+            bomb.remove();
+        }
     }
 
     @Override
     public void take(BombRangeInc ib) {
         Bomb.setRange(Bomb.getRange()+1);
+        ib.remove();
     }
     @Override
     public void take(BombRangeDec db) {
         int bombRange = Bomb.getRange();
-        if (bombRange>1)
+        if (bombRange>1){
             Bomb.setRange(bombRange-1);
+            db.remove();
+        }
+
+
     }
     // Ajout
     public int getNumberKeys()
