@@ -238,7 +238,7 @@ public final class GameEngine {
             sprites.add(new SpritePlayer(layer[currentLevel-1], player));
 
         }
-
+        player.getTimerInvincibilityTime().update(now);
         player.update(now);
         if (player.getLives() <= 0) {
             gameLoop.stop();

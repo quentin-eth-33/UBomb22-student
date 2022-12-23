@@ -23,6 +23,7 @@ public class Game {
         this.grid = grid;
         this.nbLevels = grid.length;
         player = new Player(this, configuration.playerPosition());
+        player.setInvincibilityTime(configuration.playerInvisibilityTime());
 
         for(int i = 1 ;i <= nbLevels; i++) { // FDP t'as oublié le "=" dans "<=" !!!!!!!
             Level currentGrid = (Level) this.grid(i);

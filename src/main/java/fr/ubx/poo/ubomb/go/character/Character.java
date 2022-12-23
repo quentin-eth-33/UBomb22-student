@@ -12,7 +12,7 @@ public abstract class Character extends GameObject{
     private Direction direction;
     private int lives;
 
-    private int invincibilityTime;
+    private long invincibilityTime;
 
     private Timer timerInvincibilityTime;
     private boolean moveRequested = false;
@@ -46,11 +46,11 @@ public abstract class Character extends GameObject{
     public Timer getTimerInvincibilityTime(){
         return this.timerInvincibilityTime;
     }
-    public void setInvincibilityTime(int invincibilityTime){
+    public void setInvincibilityTime(long invincibilityTime){
         this.invincibilityTime= invincibilityTime;
     }
 
-    public int getInvincibilityTime(){
+    public long getInvincibilityTime(){
         return this.invincibilityTime;
     }
     public boolean getMoveRequested() {
