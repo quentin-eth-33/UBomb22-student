@@ -59,4 +59,9 @@ public abstract class GameObject implements Walkable {
         return isAccessible;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+
 }

@@ -6,6 +6,7 @@ package fr.ubx.poo.ubomb.engine;
 
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.bonus.Bomb;
 import fr.ubx.poo.ubomb.view.ImageResource;
 import fr.ubx.poo.ubomb.view.ImageResourceFactory;
 import javafx.scene.Group;
@@ -72,8 +73,8 @@ public class StatusBar {
     public void update(Game game) {
         Player player = game.player();
         lives.setText(String.valueOf(player.getLives()));
-        bombRange.setText("?");
-        availableBombs.setText("?");
+        bombRange.setText(String.valueOf(Bomb.getRange()));
+        availableBombs.setText(String.valueOf(player.getAvailableBombs()));
         keys.setText(String.valueOf(player.getNumberKeys()));
     }
 }

@@ -67,6 +67,18 @@ public class Level implements Grid {
                         elements.put(position, new DoorNextOpened(position));
                         fromNextLevel = position;
                         break;
+                    case BombRangeInc:
+                        elements.put(position, new BombRangeInc(position));
+                        break;
+                    case  BombNumberInc:
+                        elements.put(position, new BombNumberInc(position));
+                        break;
+                    case BombNumberDec:
+                        elements.put(position, new BombNumberDec(position));
+                        break;
+                    case BombRangeDec:
+                        elements.put(position, new BombRangeDec(position));
+                        break;
 
                     case Empty: break;
                     default:

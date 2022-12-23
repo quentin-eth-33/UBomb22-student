@@ -14,13 +14,18 @@ import fr.ubx.poo.ubomb.go.TakeVisitor;
 import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player extends Character implements Movable, TakeVisitor {
 
 
     // Ajout
     private int numberKeys =0;
 
+    private int bombBagCapacity;
 
+    private List<Bomb> bombs = new ArrayList<Bomb>();
     private boolean princessFound = false;
 
 
@@ -28,6 +33,7 @@ public class Player extends Character implements Movable, TakeVisitor {
         super(game, position);
         this.setDirection(Direction.DOWN);
         this.setLives(game.configuration().playerLives());
+        this.bombBagCapacity = game.getConfiguration().bombBagCapacity();
         setInvincibilityTime(4000);
         setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
@@ -40,6 +46,36 @@ public class Player extends Character implements Movable, TakeVisitor {
         key.remove();
     }
 
+    @Override
+    public void take(BombNumberInc ab) {
+        this.bombBagCapacity ++;
+    }
+    @Override
+    public void take(BombNumberDec db) {
+        this.bombBagCapacity --;
+    }
+
+    @Override
+    public void take(AddLife al) {
+        setLives(this.getLives()+1);
+    }
+
+    @Override
+    public void take(Bomb bomb) {
+        if (bombs.size() < bombBagCapacity)
+            bombs.add(bomb);
+    }
+
+    @Override
+    public void take(BombRangeInc ib) {
+        Bomb.setRange(Bomb.getRange()+1);
+    }
+    @Override
+    public void take(BombRangeDec db) {
+        int bombRange = Bomb.getRange();
+        if (bombRange>1)
+            Bomb.setRange(bombRange-1);
+    }
     // Ajout
     public int getNumberKeys()
     {
@@ -111,10 +147,12 @@ public class Player extends Character implements Movable, TakeVisitor {
     }
 
 
-
-
     @Override
     public void explode() {
         // TODO
+    }
+
+    public int getAvailableBombs()  {
+        return bombs.size();
     }
 }

@@ -68,4 +68,8 @@ public class Game {
     public int getNbLevels() {
         return nbLevels;
     }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
 }

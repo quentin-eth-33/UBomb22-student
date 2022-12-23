@@ -6,6 +6,16 @@ import fr.ubx.poo.ubomb.go.decor.bonus.*;
 public interface TakeVisitor {
     // Key
     default void take(Key key) {}
+    default void take(BombNumberInc ab) {}
 
+    default void take(BombNumberDec db) {}
+
+    default void take(AddLife al) {}
+
+    default void take(Bomb bomb) {}
+
+    default void take(BombRangeInc bomb) {}
+
+    default void take(BombRangeDec bomb) {}
 
 }
