@@ -14,9 +14,6 @@ import fr.ubx.poo.ubomb.go.TakeVisitor;
 import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Player extends Character implements Movable, TakeVisitor {
 
 
@@ -24,8 +21,8 @@ public class Player extends Character implements Movable, TakeVisitor {
     private int numberKeys =0;
 
     private int bombBagCapacity;
+    private int bombRange = 1;
 
-    private List<Bomb> bombs = new ArrayList<Bomb>();
     private boolean princessFound = false;
 
 
@@ -53,7 +50,7 @@ public class Player extends Character implements Movable, TakeVisitor {
     }
     @Override
     public void take(BombNumberDec db) {
-        if(bombBagCapacity>0){
+        if(this.bombBagCapacity>1){
             this.bombBagCapacity --;
             db.remove();
         }
@@ -66,28 +63,18 @@ public class Player extends Character implements Movable, TakeVisitor {
         al.remove();
     }
 
-    @Override
-    public void take(Bomb bomb) {
-        if (bombs.size() < bombBagCapacity)
-        {
-            bombs.add(bomb);
-            bomb.remove();
-        }
-    }
 
     @Override
     public void take(BombRangeInc ib) {
-        Bomb.setRange(Bomb.getRange()+1);
+        this.bombRange ++;
         ib.remove();
     }
     @Override
     public void take(BombRangeDec db) {
-        int bombRange = Bomb.getRange();
-        if (bombRange>1){
-            Bomb.setRange(bombRange-1);
+        if (this.bombRange>1){
+            this.bombRange --;
             db.remove();
         }
-
 
     }
     // Ajout
@@ -166,7 +153,11 @@ public class Player extends Character implements Movable, TakeVisitor {
         // TODO
     }
 
-    public int getAvailableBombs()  {
-        return bombs.size();
+    public int getBombBagCapacity()  {
+        return bombBagCapacity;
+    }
+
+    public int getBombRange() {
+        return bombRange;
     }
 }

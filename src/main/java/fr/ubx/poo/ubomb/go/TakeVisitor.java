@@ -12,8 +12,6 @@ public interface TakeVisitor {
 
     default void take(Heart al) {}
 
-    default void take(Bomb bomb) {}
-
     default void take(BombRangeInc bomb) {}
 
     default void take(BombRangeDec bomb) {}
