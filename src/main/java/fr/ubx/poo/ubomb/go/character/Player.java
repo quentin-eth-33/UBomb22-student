@@ -112,13 +112,7 @@ public class Player extends Character implements Movable, TakeVisitor {
         //openDoor = true;
     }
 
-    public void tryBombDeposit(){
-        if(bombBagCapacity>0){
-            Bomb bomb = new Bomb(this.getPosition(), bombRange);
-            game.grid(inLevel).set(this.getPosition(), bomb);
-        }
 
-    }
 
     @Override
     public void doMove(Direction direction) {

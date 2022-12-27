@@ -28,10 +28,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public final class GameEngine {
@@ -49,6 +46,9 @@ public final class GameEngine {
     private Pane[] layer;
     private Input input;
     private int currentLevel = 1;
+
+    private final List<Bomb> listBomb = new LinkedList<>();
+
 
     public GameEngine(Game game, final Stage stage) {
         this.stage = stage;
@@ -117,6 +117,7 @@ public final class GameEngine {
                 processInput(now);
 
                 // Do actions
+                checkBomb(now);
                 update(now);
                 //createNewBombs(now);
                 checkCollision(now);
@@ -158,11 +159,25 @@ public final class GameEngine {
 
     private void createNewBombs(long now) {
         if(player.getBombBagCapacity()>0){
-            Bomb bomb = new Bomb(player.getPosition(), player.getBombRange());
+            Bomb bomb = new Bomb(player.getPosition(), player.getBombRange(), currentLevel);
             game.grid(currentLevel).set(player.getPosition(), bomb);
-            sprites.add(SpriteFactory.create(layer[currentLevel-1], bomb));
-            bomb.setModified(true);
+            sprites.add(new SpriteBomb(layer[currentLevel-1], bomb));
             player.setBombBagCapacity(player.getBombBagCapacity()-1);
+            listBomb.add(bomb);
+
+        }
+    }
+    private void checkBomb(long now) {
+        for(Bomb bomb : listBomb){
+            bomb.getTimerBomb().update(now);
+            if(bomb.getCurrentEvolution() > bomb.getNbEvolution()){
+                bomb.remove();
+            }
+            else if(!(bomb.getTimerBomb().isRunning())){
+                bomb.setCurrentEvolution(bomb.getCurrentEvolution()+1);
+                bomb.getTimerBomb().start();
+                bomb.setModified(true);
+            }
         }
     }
 
