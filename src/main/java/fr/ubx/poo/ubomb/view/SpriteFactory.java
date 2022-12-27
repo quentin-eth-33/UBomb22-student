@@ -44,6 +44,8 @@ public final class SpriteFactory {
             return new Sprite(layer, BONUS_BOMB_RANGE_DEC.getImage(), gameObject);
         if (gameObject instanceof BombRangeInc)
             return new Sprite(layer, BONUS_BOMB_RANGE_INC.getImage(), gameObject);
+        if (gameObject instanceof Bomb)
+            return new Sprite(layer, BOMB_0.getImage(), gameObject);
 
         throw new RuntimeException("Unsupported sprite for decor " + gameObject);
     }

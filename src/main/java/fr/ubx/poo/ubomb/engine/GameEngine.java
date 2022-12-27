@@ -11,6 +11,7 @@ import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.DoorNextOpened;
+import fr.ubx.poo.ubomb.go.decor.bonus.Bomb;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -117,7 +118,7 @@ public final class GameEngine {
 
                 // Do actions
                 update(now);
-                createNewBombs(now);
+                //createNewBombs(now);
                 checkCollision(now);
                 checkExplosions();
 
@@ -156,7 +157,13 @@ public final class GameEngine {
     }
 
     private void createNewBombs(long now) {
-        // Create a new Bomb is needed
+        if(player.getBombBagCapacity()>0){
+            Bomb bomb = new Bomb(player.getPosition(), player.getBombRange());
+            game.grid(currentLevel).set(player.getPosition(), bomb);
+            sprites.add(SpriteFactory.create(layer[currentLevel-1], bomb));
+            bomb.setModified(true);
+            player.setBombBagCapacity(player.getBombBagCapacity()-1);
+        }
     }
 
     private void checkCollision(long now) {
@@ -179,6 +186,10 @@ public final class GameEngine {
         } else if (input.isKey()) {
             player.requestOpen();
         }
+        else if (input.isBomb()) {
+            createNewBombs(now);
+        }
+
         input.clear();
     }
 

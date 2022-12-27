@@ -26,6 +26,7 @@ public class Player extends Character implements Movable, TakeVisitor {
     private boolean princessFound = false;
 
 
+
     public Player(Game game, Position position) {
         super(game, position);
         this.setDirection(Direction.DOWN);
@@ -111,6 +112,14 @@ public class Player extends Character implements Movable, TakeVisitor {
         //openDoor = true;
     }
 
+    public void tryBombDeposit(){
+        if(bombBagCapacity>0){
+            Bomb bomb = new Bomb(this.getPosition(), bombRange);
+            game.grid(inLevel).set(this.getPosition(), bomb);
+        }
+
+    }
+
     @Override
     public void doMove(Direction direction) {
         // This method is called only if the move is possible, do not check again
@@ -157,7 +166,15 @@ public class Player extends Character implements Movable, TakeVisitor {
         return bombBagCapacity;
     }
 
+    public void setBombBagCapacity(int bombBagCapacity)  {
+        this.bombBagCapacity =bombBagCapacity ;
+    }
+
     public int getBombRange() {
         return bombRange;
+    }
+
+    public void setBombRange(int bombRange)  {
+        this.bombRange =bombRange ;
     }
 }
