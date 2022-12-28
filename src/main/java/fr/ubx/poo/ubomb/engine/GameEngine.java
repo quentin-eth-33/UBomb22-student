@@ -156,6 +156,7 @@ public final class GameEngine {
                 explosionPosition = direction.nextPosition(referencePosition);
                 objExplosion= game.grid(bomb.getLevel()).get(explosionPosition);
                 referencePosition = explosionPosition;
+                animateExplosion(referencePosition, explosionPosition);
                 if(objExplosion instanceof Tree || objExplosion instanceof Stone){
                     break;
                 }
@@ -182,15 +183,15 @@ public final class GameEngine {
         tt.setToX(dst.x() * Sprite.size);
         tt.setToY(dst.y() * Sprite.size);
         tt.setOnFinished(e -> {
-            layer[player.getInLevel()].getChildren().remove(explosion);
+            layer[currentLevel-1].getChildren().remove(explosion);
         });
-        layer[player.getInLevel()].getChildren().add(explosion);
+        layer[currentLevel-1].getChildren().add(explosion);
         tt.play();
     }
 
     private void createNewBombs(long now) {
         if(player.getBombBagCapacity()>0){
-            Bomb bomb = new Bomb(player.getPosition(), player.getBombRange(), currentLevel);
+            Bomb bomb = new Bomb(player.getPosition(), currentLevel);
             game.grid(currentLevel).set(player.getPosition(), bomb);
             sprites.add(new SpriteBomb(layer[currentLevel-1], bomb));
             player.setBombBagCapacity(player.getBombBagCapacity()-1);
@@ -199,12 +200,13 @@ public final class GameEngine {
         }
     }
     private void checkBomb(long now) {
+        List<Bomb> listBombRemove = new LinkedList<>();
         for(Bomb bomb : listBomb){
             bomb.getTimerBomb().update(now);
             if(bomb.getCurrentEvolution() > bomb.getNbEvolution()){
-                bomb.remove();
                 doExplosions(bomb);
-                listBomb.remove(bomb);
+                listBombRemove.add(bomb);
+                bomb.remove();
                 player.setBombBagCapacity(player.getBombBagCapacity()+1);
             }
             else if(!(bomb.getTimerBomb().isRunning())){
@@ -213,7 +215,10 @@ public final class GameEngine {
                 bomb.setModified(true);
             }
         }
+        listBomb.removeAll(listBombRemove);
     }
+
+
 
     private void checkCollision(long now) {
         // Check a collision between a monster and the player

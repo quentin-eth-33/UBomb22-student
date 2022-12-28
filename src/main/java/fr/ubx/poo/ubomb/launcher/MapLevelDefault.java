@@ -1,10 +1,12 @@
 package fr.ubx.poo.ubomb.launcher;
 
+import fr.ubx.poo.ubomb.go.decor.bonus.Bomb;
+
 import static fr.ubx.poo.ubomb.launcher.Entity.*;
 
 public class MapLevelDefault extends MapLevel {
     private final static Entity[][] level1 = {
-            {Empty, Heart, Heart, BombNumberDec, BombNumberInc, BombRangeDec, BombRangeInc, Empty, Empty, Empty, Empty, Empty},
+            {Empty, Heart, Heart, BombNumberDec, BombNumberInc, BombRangeDec, BombRangeInc, BombNumberInc, BombNumberInc, Empty, Empty, Empty},
             {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Stone, Stone, Stone, Empty, Empty},
             {Empty, Empty, Empty, Empty, Stone, Empty, Stone, Heart, Heart, Stone, Empty, Empty},
             {Empty, Empty, Empty, Empty, Stone, Empty, Stone, Heart, Heart, Stone, Empty, Empty},

@@ -5,7 +5,6 @@ import fr.ubx.poo.ubomb.game.Position;
 
 public class Bomb extends Bonus{
 
-    private int range;
 
     private final int nbEvolution = 3;
 
@@ -15,9 +14,8 @@ public class Bomb extends Bonus{
 
     private int level;
     private Timer timerBomb;
-    public Bomb(Position position, int range, int level) {
+    public Bomb(Position position, int level) {
         super(position);
-        this.range =range;
         this.level =level;
         this.currentEvolution = 0;
         timerBomb = new Timer(durationEvalution);
