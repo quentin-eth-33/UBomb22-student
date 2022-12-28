@@ -8,10 +8,13 @@ import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Level;
 import fr.ubx.poo.ubomb.game.Position;
+import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.DoorNextOpened;
-import fr.ubx.poo.ubomb.go.decor.bonus.Bomb;
+import fr.ubx.poo.ubomb.go.decor.Stone;
+import fr.ubx.poo.ubomb.go.decor.Tree;
+import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -121,7 +124,6 @@ public final class GameEngine {
                 update(now);
                 //createNewBombs(now);
                 checkCollision(now);
-                checkExplosions();
 
                 // Graphic update
                 cleanupSprites();
@@ -138,8 +140,37 @@ public final class GameEngine {
         };
     }
 
-    private void checkExplosions() {
-        // Check explosions of bombs
+    private void doExplosions(Bomb bomb) {
+
+        Direction tabDirection[] = Direction.values();
+        Direction direction;
+        Position explosionPosition;
+        Position referencePosition;
+        GameObject objExplosion;
+
+        for(int i=0; i<tabDirection.length; i++){
+            direction = tabDirection[i];
+            referencePosition = bomb.getPosition();
+
+            for(int y=0; y< player.getBombRange(); y++){
+                explosionPosition = direction.nextPosition(referencePosition);
+                objExplosion= game.grid(bomb.getLevel()).get(explosionPosition);
+                referencePosition = explosionPosition;
+                if(objExplosion instanceof Tree || objExplosion instanceof Stone){
+                    break;
+                }
+                else if(objExplosion instanceof BombRangeInc || objExplosion instanceof BombRangeDec || objExplosion instanceof BombNumberInc || objExplosion instanceof BombNumberDec || objExplosion instanceof Heart){
+                    objExplosion.remove();
+                }
+                else if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
+                    player.setLives(player.getLives()-1);
+                }
+                else if(objExplosion instanceof Monster monster){
+                    monster.setLives(monster.getLives()-1);
+                }
+            }
+
+        }
     }
 
 
@@ -172,6 +203,8 @@ public final class GameEngine {
             bomb.getTimerBomb().update(now);
             if(bomb.getCurrentEvolution() > bomb.getNbEvolution()){
                 bomb.remove();
+                doExplosions(bomb);
+                listBomb.remove(bomb);
             }
             else if(!(bomb.getTimerBomb().isRunning())){
                 bomb.setCurrentEvolution(bomb.getCurrentEvolution()+1);
@@ -288,7 +321,7 @@ public final class GameEngine {
     public void cleanupSprites() {
         sprites.forEach(sprite -> {
             if (sprite.getGameObject().isDeleted()) {
-                game.grid(this.player.getInLevel()).remove(sprite.getPosition()); //pas sur de player.getInlevel()
+                game.grid(this.player.getInLevel()).remove(sprite.getPosition());
                 cleanUpSprites.add(sprite);
             }
         });
