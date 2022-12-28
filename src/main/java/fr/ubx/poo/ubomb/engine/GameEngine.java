@@ -205,6 +205,7 @@ public final class GameEngine {
                 bomb.remove();
                 doExplosions(bomb);
                 listBomb.remove(bomb);
+                player.setBombBagCapacity(player.getBombBagCapacity()+1);
             }
             else if(!(bomb.getTimerBomb().isRunning())){
                 bomb.setCurrentEvolution(bomb.getCurrentEvolution()+1);
