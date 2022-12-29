@@ -79,8 +79,8 @@ public class Monster extends Character {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid(inLevel).get(nextPos);
 
-        game.grid(inLevel).set(nextPos, this);
-        game.grid(inLevel).remove(getPosition());
+        //game.grid(inLevel).set(nextPos, this);
+        //game.grid(inLevel).remove(getPosition());
         setSaveLastPosition(getPosition());
         setPosition(nextPos);
     }

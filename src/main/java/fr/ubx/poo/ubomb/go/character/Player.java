@@ -114,6 +114,7 @@ public class Player extends Character implements Movable, TakeVisitor {
         Position nextPos = direction.nextPosition(getPosition());
 
         GameObject next = game.grid(inLevel).get(nextPos);
+        System.out.println("Next Obj: "+next);
 
         if (next != null){
 
@@ -138,7 +139,7 @@ public class Player extends Character implements Movable, TakeVisitor {
         // This method is called only if the move is possible, do not check again
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid(inLevel).get(nextPos);
-
+        System.out.println("Next Obj: "+next);
 
         if (next instanceof Bonus bonus) {
             bonus.takenBy(this);

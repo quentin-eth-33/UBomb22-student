@@ -19,6 +19,9 @@ public class Level implements Grid {
 
     private final List<Monster> monsters = new LinkedList<>();
 
+
+    private final List<Monster> monstersWithoutGame = new LinkedList<>();
+
     private final Map<Position, GameObject> elements = new HashMap<>();
 
     private Position fromNextLevel;
@@ -46,10 +49,11 @@ public class Level implements Grid {
                     case Princess:
                         elements.put(position, new Princess(position));
                         break;
+
                     case Monster:
                         Monster monster = new Monster(position);
-                        elements.put(position, monster);
-                        //monsters.add(monster); // Ne fonctionne --> il faut que monster ait une game qui lui est associé mais jsp pq
+                        //elements.put(position, monster);
+                        monstersWithoutGame.add(monster); // Ne fonctionne --> il faut que monster ait une game qui lui est associé mais jsp pq
                         break;
 
                     case DoorNextClosed:
@@ -141,4 +145,9 @@ public class Level implements Grid {
     public void addMonster(Monster monster)  {
         monsters.add(monster);
     }
+
+    public List<Monster> getMonstersWithoutGame() {
+        return this.monstersWithoutGame;
+    }
+
 }

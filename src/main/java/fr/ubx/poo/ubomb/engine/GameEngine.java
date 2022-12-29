@@ -95,14 +95,12 @@ public final class GameEngine {
 
             // Create sprites
             for (var decor : game.grid(i).values()) {
-                System.out.println("Objet: "+decor);
                 if (!(decor instanceof Monster)) {
                     sprites.add(SpriteFactory.create(layer[i-1], decor));
                     decor.setModified(true);
                 }
             }
 
-            System.out.println("Taille Liste Monster: "+((Level)this.game.grid(i)).getMonsters().size());
             for (Monster monster : ((Level)this.game.grid(i)).getMonsters()) {
                 monster.setInLevel(i);
                 sprites.add(new SpriteMonster(layer[i-1], monster));
@@ -156,7 +154,7 @@ public final class GameEngine {
         objExplosion= game.grid(bomb.getLevel()).get(explosionPosition);
 
         if(objExplosion != null){
-           objExplosion.explode();
+            objExplosion.explode();
         }
         if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
             player.explode();
@@ -179,6 +177,7 @@ public final class GameEngine {
                     if(!objExplosion.explode()){
                         break;
                     }
+
                 }
 
                 if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
@@ -391,11 +390,11 @@ public final class GameEngine {
                     }
                 }
                 if(decor instanceof Box box)
-                    if(!(box.isAddToSprite()))
+                    if(!(box.getAddToSprite()))
                     {
                         sprites.add(SpriteFactory.create(layer[i-1], decor));
                         decor.setModified(true);
-                        box.isAddToSprite(true);
+                        box.setAddToSprite(true);
                     }
             }
         }

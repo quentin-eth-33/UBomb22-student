@@ -17,11 +17,11 @@ public class Box extends Decor{
         this.AddToSprite = AddToSprite;
     }
 
-    public void isAddToSprite(boolean val){
+    public void setAddToSprite(boolean val){
         this.AddToSprite =val;
     }
 
-    public boolean isAddToSprite(){
+    public boolean getAddToSprite(){
         return this.AddToSprite;
     }
 
@@ -29,7 +29,7 @@ public class Box extends Decor{
 
     @Override
     public boolean explode() {
-        remove();
+        this.remove();
         return false;
     }
 }

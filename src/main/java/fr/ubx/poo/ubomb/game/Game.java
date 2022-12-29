@@ -25,16 +25,11 @@ public class Game {
         player = new Player(this, configuration.playerPosition());
         player.setInvincibilityTime(configuration.playerInvisibilityTime());
 
-        for(int i = 1 ;i <= nbLevels; i++) { // FDP t'as oublié le "=" dans "<=" !!!!!!!
-            Level currentGrid = (Level) this.grid(i);
-
-            for (var valueGrid : currentGrid.values()) {
-                if (valueGrid instanceof Monster monster) {
-                    monster = new Monster(this, ((Monster) valueGrid).getPosition());
-                    monster.setMonsterVelocity(configuration.monsterVelocity());
-                    this.grid[i-1].set(monster.getPosition(), monster);
-                    ((Level)(this.grid[i-1])).addMonster(monster); // Jsp pq mais il faut qu'on ajoute des monstres qui pnt leur attribut "game" différent de null
-                }
+        for(int i = 1 ;i <= nbLevels; i++) {
+            for(Monster monster : ((Level)(this.grid[i-1])).getMonstersWithoutGame()){
+                monster = new Monster(this, monster.getPosition());
+                monster.setMonsterVelocity(configuration.monsterVelocity());
+                ((Level)(this.grid[i-1])).addMonster(monster);
             }
         }
 

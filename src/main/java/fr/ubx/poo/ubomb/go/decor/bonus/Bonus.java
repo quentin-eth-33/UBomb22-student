@@ -13,6 +13,7 @@ import fr.ubx.poo.ubomb.go.decor.Decor;
 public abstract class Bonus extends Decor implements Takeable {
     public Bonus(Position position) {
         super(position);
+        setCanMoveMonster(true);
     }
 
     @Override
