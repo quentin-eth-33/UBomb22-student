@@ -139,21 +139,11 @@ public class Player extends Character implements Movable, TakeVisitor {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid(inLevel).get(nextPos);
 
+
         if (next instanceof Bonus bonus) {
             bonus.takenBy(this);
         }
-        else if(next instanceof Monster)
-        {
-            if(!(getTimerInvincibilityTime().isRunning())){
-                this.setLives(getLives()-1);
-                getTimerInvincibilityTime().setRemaining(getInvincibilityTime());
-                getTimerInvincibilityTime().start();
-            }
-            else{
-                System.out.println("JE SUIS INVINCIBLE!!!");
-            }
 
-        }
         if(next instanceof Box) {
             Position nextNextPos = direction.nextPosition(nextPos);
             next.remove();
@@ -167,6 +157,8 @@ public class Player extends Character implements Movable, TakeVisitor {
         else if( next instanceof DoorPrevOpened) {
             inLevel--;
         }
+
+        setSaveLastPosition(getPosition());
         setPosition(nextPos);
     }
     public boolean boxCanMove(Position nextPos) {

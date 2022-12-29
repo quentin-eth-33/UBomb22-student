@@ -123,8 +123,6 @@ public final class GameEngine {
                 // Do actions
                 checkBomb(now);
                 update(now);
-                //createNewBombs(now);
-                checkCollision(now);
 
                 // Graphic update
                 cleanupSprites();
@@ -237,9 +235,6 @@ public final class GameEngine {
 
 
 
-    private void checkCollision(long now) {
-        // Check a collision between a monster and the player
-    }
 
     private void processInput(long now) {
         if (input.isExit()) {
@@ -303,6 +298,28 @@ public final class GameEngine {
                 }
                 monster.update(now);
 
+
+                if(monster.getPosition().getX() == this.player.getPosition().getX() && monster.getPosition().getY() == this.player.getPosition().getY())
+                {
+                    player.getTimerInvincibilityTime().update(now);
+                    if(!(player.getTimerInvincibilityTime().isRunning())){
+                        player.setLives(player.getLives()-1);
+                        player.getTimerInvincibilityTime().start();
+                    }
+                }
+                else if(monster.getPosition().getX() == player.getSaveLastPosition().getX() &&
+                        monster.getPosition().getY() == player.getSaveLastPosition().getY() &&
+                        player.getPosition().getX() == monster.getSaveLastPosition().getX() &&
+                        player.getPosition().getY() == monster.getSaveLastPosition().getY() )
+                {
+                    player.getTimerInvincibilityTime().update(now);
+                    if(!(player.getTimerInvincibilityTime().isRunning())){
+                        player.setLives(player.getLives()-1);
+                        player.getTimerInvincibilityTime().start();
+                    }
+                }
+
+
             }
         }
 
@@ -331,7 +348,7 @@ public final class GameEngine {
             sprites.add(new SpritePlayer(layer[currentLevel-1], player));
 
         }
-        player.getTimerInvincibilityTime().update(now);
+
         player.update(now);
         if (player.getLives() <= 0) {
             gameLoop.stop();

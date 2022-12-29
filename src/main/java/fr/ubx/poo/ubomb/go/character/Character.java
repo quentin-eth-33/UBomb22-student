@@ -12,17 +12,22 @@ public abstract class Character extends GameObject{
     private Direction direction;
     private int lives;
 
+    private Position saveLastPosition;
     private long invincibilityTime;
 
     private Timer timerInvincibilityTime;
     private boolean moveRequested = false;
     protected int inLevel = 1;
+
+
     public Character(Game game, Position position) {
         super(game, position);
+        setSaveLastPosition(position);
     }
 
     public Character(Position position) {
         super(position);
+        setSaveLastPosition(position);
     }
 
     public void requestMove(Direction direction) {
@@ -83,6 +88,16 @@ public abstract class Character extends GameObject{
         this.lives = lives;
     }
 
+
+    public Position getSaveLastPosition() {
+        return saveLastPosition;
+    }
+
+    public void setSaveLastPosition(Position saveLastPosition) {
+        this.saveLastPosition = saveLastPosition;
+    }
+
+
     public boolean canMove(Direction direction) {
         // Need to be updated ;-)
         Position nextPos = direction.nextPosition(getPosition());
@@ -106,6 +121,7 @@ public abstract class Character extends GameObject{
     public void doMove(Direction direction) {}
 
     public void update(long now) {
+        getTimerInvincibilityTime().update(now);
         if (this.getMoveRequested()) {
             if (canMove(this.getDirection())) {
 

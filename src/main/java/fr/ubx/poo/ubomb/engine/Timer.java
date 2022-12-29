@@ -34,9 +34,6 @@ public class Timer {
         }
     }
 
-    public void setRemaining(long remaining){
-        this.remaining = remaining;
-    }
     public long remaining() {
         return remaining;
     }

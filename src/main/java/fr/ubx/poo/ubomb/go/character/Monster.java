@@ -79,12 +79,17 @@ public class Monster extends Character {
 
         game.grid(inLevel).set(nextPos, this);
         game.grid(inLevel).remove(getPosition());
+        setSaveLastPosition(getPosition());
         setPosition(nextPos);
     }
 
     @Override
     public boolean explode(){
-        setLives(getLives()-1);
+        if(!(getTimerInvincibilityTime().isRunning())){
+            setLives(getLives()-1);
+            getTimerInvincibilityTime().start();
+        }
+
         return true;
     }
 
