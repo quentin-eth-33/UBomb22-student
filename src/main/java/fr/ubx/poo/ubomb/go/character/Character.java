@@ -122,6 +122,7 @@ public abstract class Character extends GameObject{
 
     public void update(long now) {
         getTimerInvincibilityTime().update(now);
+
         if (this.getMoveRequested()) {
             if (canMove(this.getDirection())) {
 

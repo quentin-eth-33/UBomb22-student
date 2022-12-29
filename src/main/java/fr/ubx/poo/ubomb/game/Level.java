@@ -46,7 +46,6 @@ public class Level implements Grid {
                     case Princess:
                         elements.put(position, new Princess(position));
                         break;
-
                     case Monster:
                         Monster monster = new Monster(position);
                         elements.put(position, monster);

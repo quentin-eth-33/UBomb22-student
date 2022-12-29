@@ -23,6 +23,7 @@ public class Monster extends Character {
         // Il faut changer la formule du Timer
         timerMoveMonster = new Timer(/*(long)Math.pow((double)1,(double)10)/monsterVelocity*/monsterVelocity*200);
         timerMoveMonster.start();
+        setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
 
     public Monster(Position position) {
@@ -35,6 +36,7 @@ public class Monster extends Character {
         // Il faut changer la formule du Timer
         timerMoveMonster = new Timer(/*(long)Math.pow((double)1,(double)10)/monsterVelocity*/monsterVelocity*200);
         timerMoveMonster.start();
+        setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
 
     public Timer getTimerMoveMonster(){
