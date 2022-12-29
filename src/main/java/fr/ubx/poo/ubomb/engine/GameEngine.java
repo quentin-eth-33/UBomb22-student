@@ -11,6 +11,7 @@ import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.Box;
 import fr.ubx.poo.ubomb.go.decor.DoorNextOpened;
 import fr.ubx.poo.ubomb.go.decor.Stone;
 import fr.ubx.poo.ubomb.go.decor.Tree;
@@ -353,6 +354,13 @@ public final class GameEngine {
                         doorNextOpened.setIsAddToSprite(true);
                     }
                 }
+                if(decor instanceof Box box)
+                    if(!(box.isAddToSprite()))
+                    {
+                        sprites.add(SpriteFactory.create(layer[i-1], decor));
+                        decor.setModified(true);
+                        box.isAddToSprite(true);
+                    }
             }
         }
 

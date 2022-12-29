@@ -9,14 +9,14 @@ public class DoorNextOpened extends Decor {
     private boolean isAddToSprite;
     public DoorNextOpened(Position position) {
         super(position);
-        isUpdate = true;
-        isAddToSprite =true;
+        this.isUpdate = true;
+        this.isAddToSprite =true;
     }
 
     public DoorNextOpened(Position position, boolean isUpdate,boolean isAddToSprite) {
         super(position);
-        isUpdate = isUpdate;
-        isAddToSprite =isAddToSprite;
+        this.isUpdate = isUpdate;
+        this.isAddToSprite =isAddToSprite;
     }
 
     public void setIsUpdate(boolean val){

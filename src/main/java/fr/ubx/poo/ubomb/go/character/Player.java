@@ -13,6 +13,7 @@ import fr.ubx.poo.ubomb.go.Movable;
 import fr.ubx.poo.ubomb.go.TakeVisitor;
 import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
+import javafx.geometry.Pos;
 
 public class Player extends Character implements Movable, TakeVisitor {
 
@@ -84,10 +85,6 @@ public class Player extends Character implements Movable, TakeVisitor {
         return numberKeys;
     }
 
-
-
-
-
     public boolean getPrincessFound() {
         return princessFound;
     }
@@ -112,7 +109,29 @@ public class Player extends Character implements Movable, TakeVisitor {
         //openDoor = true;
     }
 
+    @Override
+    public boolean canMove(Direction direction) {
+        Position nextPos = direction.nextPosition(getPosition());
 
+        GameObject next = game.grid(inLevel).get(nextPos);
+
+        if (next != null){
+
+            if(next instanceof Box) {
+                Position nextNextPos = direction.nextPosition(nextPos);
+                if (boxCanMove(nextNextPos))
+                    return true;
+            }
+
+            return next.getIsAccessible();
+        }
+        else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 
     @Override
     public void doMove(Direction direction) {
@@ -135,15 +154,35 @@ public class Player extends Character implements Movable, TakeVisitor {
             }
 
         }
+        if(next instanceof Box) {
+            Position nextNextPos = direction.nextPosition(nextPos);
+            next.remove();
+            game.grid(inLevel).set(nextNextPos,new Box(new Position(nextNextPos),false));
+        }
 
         if( next instanceof DoorNextOpened) {
             inLevel++;
         }
 
-        if( next instanceof DoorPrevOpened) {
+        else if( next instanceof DoorPrevOpened) {
             inLevel--;
         }
         setPosition(nextPos);
+    }
+    public boolean boxCanMove(Position nextPos) {
+        GameObject next = game.grid(inLevel).get(nextPos);
+
+        if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
+            return false;
+        }
+        else if (next == null){
+
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
     @Override
     public String toString() {

@@ -82,10 +82,12 @@ public class Level implements Grid {
                         break;
                     case Heart:
                         elements.put(position, new Heart(position));
+                        break;
+                    case Box:
+                        elements.put(position,new Box(position));
                     case Empty: break;
                     default:
-                        break;
-                    //throw new RuntimeException("EntityCode " + entity.name() + " not processed");
+                        throw new RuntimeException("EntityCode " + entity.name() + " not processed");
                 }
             }
     }
