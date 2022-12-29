@@ -9,7 +9,9 @@ public class Princess extends Bonus {
         super(position);
     }
     @Override
-    public void explode() {}
+    public boolean explode() {
+        return true;
+    }
 
     @Override
     public void takenBy(Player player) {

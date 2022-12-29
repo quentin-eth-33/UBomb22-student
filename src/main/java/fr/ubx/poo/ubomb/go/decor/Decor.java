@@ -8,10 +8,12 @@ public abstract class Decor extends GameObject {
 
     public Decor(Game game, Position position) {
         super(game, position);
+        setCanMoveMonster(false);
     }
 
     public Decor(Position position) {
         super(position);
+        setCanMoveMonster(false);
     }
 
 }

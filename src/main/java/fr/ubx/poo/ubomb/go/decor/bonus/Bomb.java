@@ -51,8 +51,15 @@ public class Bomb extends Bonus{
         return currentEvolution;
     }
 
+
     public void setCurrentEvolution(int currentEvolution){
         this.currentEvolution = currentEvolution;
+    }
+
+
+    @Override
+    public boolean explode() {
+        return true;
     }
 
 }

@@ -25,8 +25,11 @@ public class Box extends Decor{
         return this.AddToSprite;
     }
 
+
+
     @Override
-    public void explode() {
-        this.remove();
+    public boolean explode() {
+        remove();
+        return false;
     }
 }

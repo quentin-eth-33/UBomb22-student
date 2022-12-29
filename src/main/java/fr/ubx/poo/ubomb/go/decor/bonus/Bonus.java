@@ -21,8 +21,9 @@ public abstract class Bonus extends Decor implements Takeable {
     }
 
     @Override
-    public void explode() {
+    public boolean explode() {
         remove();
+        return true;
     }
 
     @Override

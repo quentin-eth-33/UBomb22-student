@@ -191,8 +191,9 @@ public class Player extends Character implements Movable, TakeVisitor {
 
 
     @Override
-    public void explode() {
-        // TODO
+    public boolean explode() {
+        setLives(getLives()-1);
+        return true;
     }
 
     public int getBombBagCapacity()  {

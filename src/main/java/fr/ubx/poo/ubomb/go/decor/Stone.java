@@ -11,4 +11,9 @@ public class Stone extends Decor {
         super(position);
         setIsAccessible(false);
     }
+
+    @Override
+    public boolean explode(){
+        return false;
+    }
 }

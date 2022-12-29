@@ -12,4 +12,5 @@ public class BombNumberDec extends Bonus{
     public void takenBy(Player player) {
         player.take(this);
     }
+
 }

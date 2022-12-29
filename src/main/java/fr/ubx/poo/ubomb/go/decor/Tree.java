@@ -10,4 +10,9 @@ public class Tree extends Decor {
         super(position);
         setIsAccessible(false);
     }
+
+    @Override
+    public boolean explode(){
+        return false;
+    }
 }

@@ -61,12 +61,7 @@ public class Monster extends Character {
         GameObject next = game.grid(inLevel).get(nextPos);
 
         if (next != null){
-            if(next instanceof Princess)
-            {
-                return false;
-            }
-            return next.getIsAccessible();
-
+            return next.getCanMoveMonster();
         }
         else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
             return false;
@@ -82,19 +77,17 @@ public class Monster extends Character {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid(inLevel).get(nextPos);
 
-        // Surement faux
-/*
-        if (next instanceof Player) {
-            ((Player)next).setLives(((Player)next).getLives()-1);
-        }
-
-
- */
-
         game.grid(inLevel).set(nextPos, this);
         game.grid(inLevel).remove(getPosition());
         setPosition(nextPos);
     }
+
+    @Override
+    public boolean explode(){
+        setLives(getLives()-1);
+        return true;
+    }
+
 
     @Override
     public String toString() {

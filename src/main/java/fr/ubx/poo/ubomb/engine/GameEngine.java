@@ -149,6 +149,21 @@ public final class GameEngine {
         Position referencePosition;
         GameObject objExplosion;
 
+        referencePosition = bomb.getPosition();
+        explosionPosition =bomb.getPosition();
+        if(currentLevel == bomb.getLevel()){
+            animateExplosion(referencePosition, explosionPosition);
+        }
+
+        objExplosion= game.grid(bomb.getLevel()).get(explosionPosition);
+
+        if(objExplosion != null){
+           objExplosion.explode();
+        }
+        if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
+            player.explode();
+        }
+
         for(int i=0; i<tabDirection.length; i++){
             direction = tabDirection[i];
             referencePosition = bomb.getPosition();
@@ -157,18 +172,19 @@ public final class GameEngine {
                 explosionPosition = direction.nextPosition(referencePosition);
                 objExplosion= game.grid(bomb.getLevel()).get(explosionPosition);
                 referencePosition = explosionPosition;
-                animateExplosion(referencePosition, explosionPosition);
-                if(objExplosion instanceof Tree || objExplosion instanceof Stone){
-                    break;
+
+                if(currentLevel == bomb.getLevel()){
+                    animateExplosion(referencePosition, explosionPosition);
                 }
-                else if(objExplosion instanceof BombRangeInc || objExplosion instanceof BombRangeDec || objExplosion instanceof BombNumberInc || objExplosion instanceof BombNumberDec || objExplosion instanceof Heart){
-                    objExplosion.remove();
+
+                if(objExplosion != null){
+                    if(!objExplosion.explode()){
+                        break;
+                    }
                 }
-                else if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
-                    player.setLives(player.getLives()-1);
-                }
-                else if(objExplosion instanceof Monster monster){
-                    monster.setLives(monster.getLives()-1);
+
+                if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
+                    player.explode();
                 }
             }
 
@@ -281,6 +297,9 @@ public final class GameEngine {
                     // Il faut changer la formule du Timer
                     monster.setTimerMoveMonster(new Timer(/*(long)Math.pow((double)1,(double)10)/monster.getMonsterVelocity())*/ (monster.getMonsterVelocity())*200));
                     monster.getTimerMoveMonster().start();
+                }
+                if(monster.getLives() <=0){
+                    monster.remove();
                 }
                 monster.update(now);
 

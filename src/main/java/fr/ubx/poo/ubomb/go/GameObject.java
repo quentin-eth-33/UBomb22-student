@@ -15,6 +15,8 @@ public abstract class GameObject implements Walkable {
 
     private boolean isAccessible =true;
 
+    private boolean canMoveMonster;
+
     public GameObject(Game game, Position position) {
         this.game = game;
         this.position = position;
@@ -49,7 +51,8 @@ public abstract class GameObject implements Walkable {
         deleted = true;
     }
 
-    public void explode() {
+    public boolean explode() {
+        return true;
     }
 
     public void setIsAccessible(boolean isAccessible) {
@@ -61,6 +64,14 @@ public abstract class GameObject implements Walkable {
 
     public Game getGame() {
         return game;
+    }
+
+    public boolean getCanMoveMonster(){
+        return canMoveMonster;
+    }
+
+    public void setCanMoveMonster(boolean canMoveMonster){
+        this.canMoveMonster= canMoveMonster;
     }
 
 
