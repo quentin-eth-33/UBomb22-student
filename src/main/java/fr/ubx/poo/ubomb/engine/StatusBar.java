@@ -28,12 +28,12 @@ public class StatusBar {
     private final HBox level = new HBox();
 
 
-    public StatusBar(Group root, int sceneWidth, int sceneHeight, Game game) {
+    public StatusBar(Group root, int sceneWidth, int sceneHeight, Game game, int levelStatutBar) {
         // Status bar
         this.game = game;
 
         level.getStyleClass().add("level");
-        level.getChildren().add(new ImageView(ImageResourceFactory.digit(1).getImage()));
+        level.getChildren().add(new ImageView(ImageResourceFactory.digit(levelStatutBar).getImage()));
 
         ds.setRadius(5.0);
         ds.setOffsetX(3.0);
@@ -47,7 +47,7 @@ public class StatusBar {
         HBox bombs = statusGroup(ImageResource.BANNER_BOMB.getImage(), availableBombs);
         HBox range = statusGroup(ImageResource.BANNER_RANGE.getImage(), bombRange);
         HBox key = statusGroup(ImageResource.KEY.getImage(), keys);
-        status.setSpacing(40.0);
+        status.setSpacing(10.0);
         status.getChildren().addAll(live, bombs, range, key);
 
         hBox.getChildren().addAll(level, status);

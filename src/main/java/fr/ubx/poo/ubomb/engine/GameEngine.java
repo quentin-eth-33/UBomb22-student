@@ -91,7 +91,7 @@ public final class GameEngine {
 
             root.getChildren().add(layer[i-1]);
             int indice = i-1;
-            listStatusBar.add(new StatusBar(root, sceneWidth, sceneHeight, game));
+            listStatusBar.add(new StatusBar(root, sceneWidth, sceneHeight, game, i));
 
             // Create sprites
             for (var decor : game.grid(i).values()) {
