@@ -144,7 +144,9 @@ public class Player extends Character implements Movable, TakeVisitor {
         if(next instanceof Box) {
             Position nextNextPos = direction.nextPosition(nextPos);
             next.remove();
-            game.grid(inLevel).set(nextNextPos,new Box(new Position(nextNextPos),false));
+            Box box = new Box(new Position(nextNextPos),false);
+            box.setLevelObj(inLevel);
+            game.grid(inLevel).set(nextNextPos, box);
         }
 
         if( next instanceof DoorNextOpened) {

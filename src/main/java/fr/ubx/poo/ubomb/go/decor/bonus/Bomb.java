@@ -12,11 +12,10 @@ public class Bomb extends Bonus{
 
     private int currentEvolution;
 
-    private int level;
     private Timer timerBomb;
     public Bomb(Position position, int level) {
         super(position);
-        this.level =level;
+        setLevelObj(level);
         this.currentEvolution = 0;
         timerBomb = new Timer(durationEvalution);
         timerBomb.start();
@@ -30,14 +29,6 @@ public class Bomb extends Bonus{
         this.timerBomb =  timerBomb;
     }
 
-
-    public int getLevel(){
-        return level;
-    }
-
-    public void setLevel(int level){
-        this.level =  level;
-    }
 
     public int getNbEvolution(){
         return nbEvolution;

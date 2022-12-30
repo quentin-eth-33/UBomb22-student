@@ -96,6 +96,7 @@ public final class GameEngine {
             // Create sprites
             for (var decor : game.grid(i).values()) {
                 if (!(decor instanceof Monster)) {
+                    decor.setLevelObj(i);
                     sprites.add(SpriteFactory.create(layer[i-1], decor));
                     decor.setModified(true);
                 }
@@ -147,11 +148,11 @@ public final class GameEngine {
 
         referencePosition = bomb.getPosition();
         explosionPosition =bomb.getPosition();
-        if(currentLevel == bomb.getLevel()){
+        if(currentLevel == bomb.getLevelObj()){
             animateExplosion(referencePosition, explosionPosition);
         }
 
-        objExplosion= game.grid(bomb.getLevel()).get(explosionPosition);
+        objExplosion= game.grid(bomb.getLevelObj()).get(explosionPosition);
 
         if(objExplosion != null){
             objExplosion.explode();
@@ -160,7 +161,7 @@ public final class GameEngine {
             player.explode();
         }
 
-        for(Monster monster : ((Level)this.game.grid(bomb.getLevel())).getMonsters()){
+        for(Monster monster : ((Level)this.game.grid(bomb.getLevelObj())).getMonsters()){
             if(monster.getPosition().getX() == explosionPosition.getX() && monster.getPosition().getY() == explosionPosition.getY()){
                 monster.explode();
             }
@@ -172,10 +173,10 @@ public final class GameEngine {
 
             for(int y=0; y< player.getBombRange(); y++){
                 explosionPosition = direction.nextPosition(referencePosition);
-                objExplosion= game.grid(bomb.getLevel()).get(explosionPosition);
+                objExplosion= game.grid(bomb.getLevelObj()).get(explosionPosition);
                 referencePosition = explosionPosition;
 
-                if(currentLevel == bomb.getLevel()){
+                if(currentLevel == bomb.getLevelObj()){
                     animateExplosion(referencePosition, explosionPosition);
                 }
 
@@ -190,7 +191,7 @@ public final class GameEngine {
                     player.explode();
                 }
 
-                for(Monster monster : ((Level)this.game.grid(bomb.getLevel())).getMonsters()){
+                for(Monster monster : ((Level)this.game.grid(bomb.getLevelObj())).getMonsters()){
                     if(monster.getPosition().getX() == explosionPosition.getX() && monster.getPosition().getY() == explosionPosition.getY()){
                         monster.explode();
                     }
@@ -379,7 +380,17 @@ public final class GameEngine {
     public void cleanupSprites() {
         sprites.forEach(sprite -> {
             if (sprite.getGameObject().isDeleted()) {
-                game.grid(this.player.getInLevel()).remove(sprite.getPosition());
+                //game.grid(this.player.getInLevel()).remove(sprite.getPosition());
+                try{
+
+                    System.out.println("LevelObj: "+sprite.getGameObject().getLevelObj());
+                    System.out.println("Obj Grid: "+game.grid(sprite.getGameObject().getLevelObj()).get(sprite.getPosition()));
+                    game.grid(sprite.getGameObject().getLevelObj()).remove(sprite.getPosition());
+                }
+                catch(Exception e){
+                    System.out.println("Exception de tous ses morts: "+e);
+                }
+
                 cleanUpSprites.add(sprite);
             }
         });

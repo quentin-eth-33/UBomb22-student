@@ -17,6 +17,8 @@ public abstract class GameObject implements Walkable {
 
     private boolean canMoveMonster;
 
+    private int levelObj;
+
     public GameObject(Game game, Position position) {
         this.game = game;
         this.position = position;
@@ -73,6 +75,15 @@ public abstract class GameObject implements Walkable {
     public void setCanMoveMonster(boolean canMoveMonster){
         this.canMoveMonster= canMoveMonster;
     }
+
+    public int getLevelObj(){
+        return levelObj;
+    }
+
+    public void setLevelObj(int levelObj){
+        this.levelObj= levelObj;
+    }
+
 
 
 }
