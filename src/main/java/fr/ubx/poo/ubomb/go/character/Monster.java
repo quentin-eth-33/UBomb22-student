@@ -88,7 +88,9 @@ public class Monster extends Character {
     @Override
     public boolean explode(){
         if(!(getTimerInvincibilityTime().isRunning())){
+
             setLives(getLives()-1);
+            System.out.println("Nombre Vie Monster: "+getLives());
             getTimerInvincibilityTime().start();
         }
 

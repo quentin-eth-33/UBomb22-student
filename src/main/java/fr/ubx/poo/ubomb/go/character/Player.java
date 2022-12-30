@@ -41,7 +41,6 @@ public class Player extends Character implements Movable, TakeVisitor {
     @Override
     public void take(Key key) {
         numberKeys++;
-        System.out.println("Take the key ...");
         key.remove();
     }
 
@@ -100,7 +99,6 @@ public class Player extends Character implements Movable, TakeVisitor {
         GameObject nextObject = game.grid(inLevel).get(nextPosition);
         if(nextObject instanceof DoorNextClosed && this.getNumberKeys() >=1)
         {
-            System.out.println("Eligible");
             this.numberKeys --;
             DoorNextOpened d =new DoorNextOpened(nextPosition, false, false);
             game.grid(inLevel).set(nextPosition, d);
@@ -114,7 +112,6 @@ public class Player extends Character implements Movable, TakeVisitor {
         Position nextPos = direction.nextPosition(getPosition());
 
         GameObject next = game.grid(inLevel).get(nextPos);
-        System.out.println("Next Obj: "+next);
 
         if (next != null){
 
@@ -139,7 +136,6 @@ public class Player extends Character implements Movable, TakeVisitor {
         // This method is called only if the move is possible, do not check again
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid(inLevel).get(nextPos);
-        System.out.println("Next Obj: "+next);
 
         if (next instanceof Bonus bonus) {
             bonus.takenBy(this);
@@ -186,6 +182,7 @@ public class Player extends Character implements Movable, TakeVisitor {
     @Override
     public boolean explode() {
         setLives(getLives()-1);
+
         return true;
     }
 

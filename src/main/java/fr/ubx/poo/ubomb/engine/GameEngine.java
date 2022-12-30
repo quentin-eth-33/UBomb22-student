@@ -160,6 +160,12 @@ public final class GameEngine {
             player.explode();
         }
 
+        for(Monster monster : ((Level)this.game.grid(bomb.getLevel())).getMonsters()){
+            if(monster.getPosition().getX() == explosionPosition.getX() && monster.getPosition().getY() == explosionPosition.getY()){
+                monster.explode();
+            }
+        }
+
         for(int i=0; i<tabDirection.length; i++){
             direction = tabDirection[i];
             referencePosition = bomb.getPosition();
@@ -182,6 +188,12 @@ public final class GameEngine {
 
                 if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
                     player.explode();
+                }
+
+                for(Monster monster : ((Level)this.game.grid(bomb.getLevel())).getMonsters()){
+                    if(monster.getPosition().getX() == explosionPosition.getX() && monster.getPosition().getY() == explosionPosition.getY()){
+                        monster.explode();
+                    }
                 }
             }
 
@@ -292,21 +304,24 @@ public final class GameEngine {
                     monster.setTimerMoveMonster(new Timer(/*(long)Math.pow((double)1,(double)10)/monster.getMonsterVelocity())*/ (monster.getMonsterVelocity())*200));
                     monster.getTimerMoveMonster().start();
                 }
+
                 if(monster.getLives() <=0){
                     monster.remove();
                 }
                 monster.update(now);
 
 
-                if(monster.getPosition().getX() == this.player.getPosition().getX() && monster.getPosition().getY() == this.player.getPosition().getY())
+                if(monster.getInLevel() == currentLevel && monster.getPosition().getX() == this.player.getPosition().getX() && monster.getPosition().getY() == this.player.getPosition().getY())
                 {
                     player.getTimerInvincibilityTime().update(now);
                     if(!(player.getTimerInvincibilityTime().isRunning())){
                         player.setLives(player.getLives()-1);
+                        System.out.println("First");
                         player.getTimerInvincibilityTime().start();
                     }
                 }
-                else if(monster.getPosition().getX() == player.getSaveLastPosition().getX() &&
+                else if(monster.getInLevel() == currentLevel &&
+                        monster.getPosition().getX() == player.getSaveLastPosition().getX() &&
                         monster.getPosition().getY() == player.getSaveLastPosition().getY() &&
                         player.getPosition().getX() == monster.getSaveLastPosition().getX() &&
                         player.getPosition().getY() == monster.getSaveLastPosition().getY() )
@@ -314,6 +329,7 @@ public final class GameEngine {
                     player.getTimerInvincibilityTime().update(now);
                     if(!(player.getTimerInvincibilityTime().isRunning())){
                         player.setLives(player.getLives()-1);
+                        System.out.println("First");
                         player.getTimerInvincibilityTime().start();
                     }
                 }
