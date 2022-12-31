@@ -15,27 +15,18 @@ public class Bomb extends Bonus{
     private Timer timerBomb;
     public Bomb(Position position, int level) {
         super(position);
-        setLevelObj(level);
+        this.setLevelObj(level);
         this.currentEvolution = 0;
-        timerBomb = new Timer(durationEvalution);
-        timerBomb.start();
+        this.timerBomb = new Timer(durationEvalution);
+        this.timerBomb.start();
     }
 
     public Timer getTimerBomb(){
         return timerBomb;
     }
 
-    public void setTimerBomb(Timer timerBomb){
-        this.timerBomb =  timerBomb;
-    }
-
-
     public int getNbEvolution(){
         return nbEvolution;
-    }
-
-    public int getDurationEvalution(){
-        return durationEvalution;
     }
 
     public int getCurrentEvolution(){
@@ -46,8 +37,6 @@ public class Bomb extends Bonus{
     public void setCurrentEvolution(int currentEvolution){
         this.currentEvolution = currentEvolution;
     }
-
-
     @Override
     public boolean explode() {
         return true;

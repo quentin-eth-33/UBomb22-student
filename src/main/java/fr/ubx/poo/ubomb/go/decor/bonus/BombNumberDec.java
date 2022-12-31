@@ -7,7 +7,6 @@ public class BombNumberDec extends Bonus{
     public BombNumberDec(Position position) {
         super(position);
     }
-
     @Override
     public void takenBy(Player player) {
         player.take(this);

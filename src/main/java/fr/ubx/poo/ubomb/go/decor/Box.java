@@ -3,26 +3,26 @@ package fr.ubx.poo.ubomb.go.decor;
 import fr.ubx.poo.ubomb.game.Position;
 
 public class Box extends Decor{
-    private boolean AddToSprite;
+    private boolean addToSprite;
 
     public Box(Position position) {
         super(position);
-        setIsAccessible(false);
-        AddToSprite =true;
+        this.setIsAccessible(false);
+        this.addToSprite =true;
     }
 
     public Box(Position position, boolean AddToSprite) {
         super(position);
         setIsAccessible(false);
-        this.AddToSprite = AddToSprite;
+        this.addToSprite = AddToSprite;
     }
 
     public void setAddToSprite(boolean val){
-        this.AddToSprite =val;
+        this.addToSprite =val;
     }
 
     public boolean getAddToSprite(){
-        return this.AddToSprite;
+        return this.addToSprite;
     }
 
 

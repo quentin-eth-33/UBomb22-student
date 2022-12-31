@@ -13,8 +13,6 @@ import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.Box;
 import fr.ubx.poo.ubomb.go.decor.DoorNextOpened;
-import fr.ubx.poo.ubomb.go.decor.Stone;
-import fr.ubx.poo.ubomb.go.decor.Tree;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
@@ -85,12 +83,9 @@ public final class GameEngine {
                 stage.hide();
                 stage.show();
                 input = new Input(scenes[0]);
-                //listStatusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
-
             }
 
             root.getChildren().add(layer[i-1]);
-            int indice = i-1;
             listStatusBar.add(new StatusBar(root, sceneWidth, sceneHeight, game, i));
 
             // Create sprites
@@ -301,8 +296,7 @@ public final class GameEngine {
                     direction = Direction.random();
                     monster.requestMove(direction);
 
-                    // Il faut changer la formule du Timer
-                    monster.setTimerMoveMonster(new Timer(/*(long)Math.pow((double)1,(double)10)/monster.getMonsterVelocity())*/ (monster.getMonsterVelocity())*200));
+                    monster.setTimerMoveMonster(new Timer( (monster.getMonsterVelocity())*200));
                     monster.getTimerMoveMonster().start();
                 }
 
@@ -317,7 +311,6 @@ public final class GameEngine {
                     player.getTimerInvincibilityTime().update(now);
                     if(!(player.getTimerInvincibilityTime().isRunning())){
                         player.setLives(player.getLives()-1);
-                        System.out.println("First");
                         player.getTimerInvincibilityTime().start();
                     }
                 }
@@ -330,7 +323,6 @@ public final class GameEngine {
                     player.getTimerInvincibilityTime().update(now);
                     if(!(player.getTimerInvincibilityTime().isRunning())){
                         player.setLives(player.getLives()-1);
-                        System.out.println("First");
                         player.getTimerInvincibilityTime().start();
                     }
                 }
@@ -350,7 +342,7 @@ public final class GameEngine {
 
 
             if (next)
-                newPlayerPosition = new Position(((Level)game.grid(currentLevel)).getFromPreviusLevel());
+                newPlayerPosition = new Position(((Level)game.grid(currentLevel)).getFromPreviousLevel());
             else
                 newPlayerPosition = new Position(((Level)game.grid(currentLevel)).getFromNextLevel());
 
@@ -380,15 +372,11 @@ public final class GameEngine {
     public void cleanupSprites() {
         sprites.forEach(sprite -> {
             if (sprite.getGameObject().isDeleted()) {
-                //game.grid(this.player.getInLevel()).remove(sprite.getPosition());
                 try{
-
-                    System.out.println("LevelObj: "+sprite.getGameObject().getLevelObj());
-                    System.out.println("Obj Grid: "+game.grid(sprite.getGameObject().getLevelObj()).get(sprite.getPosition()));
                     game.grid(sprite.getGameObject().getLevelObj()).remove(sprite.getPosition());
                 }
                 catch(Exception e){
-                    System.out.println("Exception de tous ses morts: "+e);
+
                 }
 
                 cleanUpSprites.add(sprite);

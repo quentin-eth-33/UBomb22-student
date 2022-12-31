@@ -25,7 +25,7 @@ public class Level implements Grid {
     private final Map<Position, GameObject> elements = new HashMap<>();
 
     private Position fromNextLevel;
-    private Position fromPreviusLevel;
+    private Position fromPreviousLevel;
 
     public Level(MapLevel entities) {
         this.entities = entities;
@@ -52,8 +52,7 @@ public class Level implements Grid {
 
                     case Monster:
                         Monster monster = new Monster(position);
-                        //elements.put(position, monster);
-                        monstersWithoutGame.add(monster); // Ne fonctionne --> il faut que monster ait une game qui lui est associé mais jsp pq
+                        monstersWithoutGame.add(monster);
                         break;
 
                     case DoorNextClosed:
@@ -63,7 +62,7 @@ public class Level implements Grid {
 
                     case DoorPrevOpened:
                         elements.put(position, new DoorPrevOpened(position));
-                        fromPreviusLevel = position;
+                        fromPreviousLevel = position;
                         break;
 
                     case DoorNextOpened:
@@ -113,8 +112,8 @@ public class Level implements Grid {
         return fromNextLevel;
     }
 
-    public Position getFromPreviusLevel() {
-        return fromPreviusLevel;
+    public Position getFromPreviousLevel() {
+        return fromPreviousLevel;
     }
 
     @Override

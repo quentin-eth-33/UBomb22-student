@@ -22,13 +22,13 @@ public class Game {
         this.configuration = configuration;
         this.grid = grid;
         this.nbLevels = grid.length;
-        player = new Player(this, configuration.playerPosition());
-        player.setInvincibilityTime(configuration.playerInvisibilityTime());
+        this.player = new Player(this, configuration.playerPosition());
+        this.player.setInvincibilityTime(configuration.playerInvisibilityTime());
 
         for(int i = 1 ;i <= nbLevels; i++) {
             for(Monster monster : ((Level)(this.grid[i-1])).getMonstersWithoutGame()){
                 monster = new Monster(this, monster.getPosition());
-                monster.setMonsterVelocity(configuration.monsterVelocity());
+                monster.setLives(1 + i/2);
                 ((Level)(this.grid[i-1])).addMonster(monster);
             }
         }

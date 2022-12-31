@@ -99,15 +99,11 @@ public abstract class Character extends GameObject{
 
 
     public boolean canMove(Direction direction) {
-        // Need to be updated ;-)
         Position nextPos = direction.nextPosition(getPosition());
-
         GameObject next = game.grid(inLevel).get(nextPos);
 
         if (next != null){
-
             return next.getIsAccessible();
-
         }
         else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
             return false;
@@ -125,9 +121,7 @@ public abstract class Character extends GameObject{
 
         if (this.getMoveRequested()) {
             if (canMove(this.getDirection())) {
-
                 doMove(this.getDirection());
-                //System.out.println(this.toString());
             }
         }
         this.setMoveRequested(false);

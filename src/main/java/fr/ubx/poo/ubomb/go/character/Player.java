@@ -33,8 +33,8 @@ public class Player extends Character implements Movable, TakeVisitor {
         this.setDirection(Direction.DOWN);
         this.setLives(game.configuration().playerLives());
         this.bombBagCapacity = game.getConfiguration().bombBagCapacity();
-        setInvincibilityTime(4000);
-        setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
+        this.setInvincibilityTime(game.getConfiguration().playerInvisibilityTime());
+        this.setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
 
 
@@ -104,25 +104,22 @@ public class Player extends Character implements Movable, TakeVisitor {
             game.grid(inLevel).set(nextPosition, d);
             nextObject.setModified(true);
         }
-        //openDoor = true;
     }
 
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
-
         GameObject next = game.grid(inLevel).get(nextPos);
 
         if (next != null){
-
             if(next instanceof Box) {
                 Position nextNextPos = direction.nextPosition(nextPos);
                 if (boxCanMove(nextNextPos))
                     return true;
             }
-
             return next.getIsAccessible();
         }
+
         else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
             return false;
         }
@@ -133,7 +130,6 @@ public class Player extends Character implements Movable, TakeVisitor {
 
     @Override
     public void doMove(Direction direction) {
-        // This method is called only if the move is possible, do not check again
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid(inLevel).get(nextPos);
 
@@ -141,7 +137,7 @@ public class Player extends Character implements Movable, TakeVisitor {
             bonus.takenBy(this);
         }
 
-        if(next instanceof Box) {
+        else if(next instanceof Box) {
             Position nextNextPos = direction.nextPosition(nextPos);
             next.remove();
             Box box = new Box(new Position(nextNextPos),false);
@@ -149,7 +145,7 @@ public class Player extends Character implements Movable, TakeVisitor {
             game.grid(inLevel).set(nextNextPos, box);
         }
 
-        if( next instanceof DoorNextOpened) {
+        else if( next instanceof DoorNextOpened) {
             inLevel++;
         }
 
@@ -180,11 +176,9 @@ public class Player extends Character implements Movable, TakeVisitor {
         return " PLAYER | Position X: " + this.getPosition().getX() + " | Position Y: "+this.getPosition().getY()+" | Vie: "+this.getLives();
     }
 
-
     @Override
     public boolean explode() {
         setLives(getLives()-1);
-
         return true;
     }
 
@@ -200,7 +194,4 @@ public class Player extends Character implements Movable, TakeVisitor {
         return bombRange;
     }
 
-    public void setBombRange(int bombRange)  {
-        this.bombRange =bombRange ;
-    }
 }

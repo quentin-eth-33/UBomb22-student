@@ -16,25 +16,21 @@ public class Monster extends Character {
     public Monster(Game game, Position position) {
         super(game, position);
         this.setDirection(Direction.DOWN);
-        this.setLives(1);
-        monsterVelocity =5;
-        setInvincibilityTime(1000);
-
-        // Il faut changer la formule du Timer
-        timerMoveMonster = new Timer(/*(long)Math.pow((double)1,(double)10)/monsterVelocity*/monsterVelocity*200);
-        timerMoveMonster.start();
-        setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
+        this.monsterVelocity = game.getConfiguration().monsterVelocity();
+        this.setInvincibilityTime(game.getConfiguration().monsterInvisibilityTime());
+        this.timerMoveMonster = new Timer(monsterVelocity*200);
+        this.timerMoveMonster.start();
+        this.setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
 
     public Monster(Position position) {
         super(position);
         this.setDirection(Direction.DOWN);
         this.setLives(1);
+        //TODO
         monsterVelocity =5;
         setInvincibilityTime(1000);
-
-        // Il faut changer la formule du Timer
-        timerMoveMonster = new Timer(/*(long)Math.pow((double)1,(double)10)/monsterVelocity*/monsterVelocity*200);
+        timerMoveMonster = new Timer(monsterVelocity*200);
         timerMoveMonster.start();
         setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
@@ -54,7 +50,6 @@ public class Monster extends Character {
     public int getMonsterVelocity(){
         return this.monsterVelocity;
     }
-
     @Override
     public boolean canMove(Direction direction) {
         // Need to be updated ;-)
@@ -77,10 +72,6 @@ public class Monster extends Character {
     @Override
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
-        GameObject next = game.grid(inLevel).get(nextPos);
-
-        //game.grid(inLevel).set(nextPos, this);
-        //game.grid(inLevel).remove(getPosition());
         setSaveLastPosition(getPosition());
         setPosition(nextPos);
     }
@@ -88,15 +79,11 @@ public class Monster extends Character {
     @Override
     public boolean explode(){
         if(!(getTimerInvincibilityTime().isRunning())){
-
             setLives(getLives()-1);
-            System.out.println("Nombre Vie Monster: "+getLives());
             getTimerInvincibilityTime().start();
         }
-
         return true;
     }
-
 
     @Override
     public String toString() {

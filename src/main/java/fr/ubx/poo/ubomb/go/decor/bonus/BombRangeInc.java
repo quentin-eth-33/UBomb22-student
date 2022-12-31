@@ -8,8 +8,6 @@ public class BombRangeInc extends Bonus{
     public BombRangeInc(Position position) {
         super(position);
     }
-
-
     @Override
     public void takenBy(Player player) {
         player.take(this);

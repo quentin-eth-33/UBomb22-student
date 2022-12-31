@@ -47,7 +47,7 @@ public class StatusBar {
         HBox bombs = statusGroup(ImageResource.BANNER_BOMB.getImage(), availableBombs);
         HBox range = statusGroup(ImageResource.BANNER_RANGE.getImage(), bombRange);
         HBox key = statusGroup(ImageResource.KEY.getImage(), keys);
-        status.setSpacing(10.0);
+        status.setSpacing((sceneWidth/4)-85);
         status.getChildren().addAll(live, bombs, range, key);
 
         hBox.getChildren().addAll(level, status);

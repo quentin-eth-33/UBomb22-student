@@ -1,7 +1,7 @@
 package fr.ubx.poo.ubomb.launcher;
 
 public class MapRepoString implements MapRepo {
-    final char EOL = 'x';
+    private final char EOL = 'x';
 
     @Override
     public MapLevel load(String string) {
