@@ -5,6 +5,7 @@ import fr.ubx.poo.ubomb.game.Position;
 public class Box extends Decor{
     private boolean addToSprite;
 
+
     public Box(Position position) {
         super(position);
         this.setIsAccessible(false);

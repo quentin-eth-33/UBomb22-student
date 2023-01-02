@@ -143,6 +143,7 @@ public final class GameEngine {
         Position explosionPosition;
         Position referencePosition;
         GameObject objExplosion;
+        boolean isFirstBox = true;
 
         referencePosition = bomb.getPosition();
         explosionPosition =bomb.getPosition();
@@ -178,7 +179,16 @@ public final class GameEngine {
                     animateExplosion(referencePosition, explosionPosition);
                 }
 
-                if(objExplosion != null){
+                if(objExplosion instanceof Box){
+                    if(isFirstBox){
+                        objExplosion.explode();
+                        isFirstBox = false;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else if(objExplosion != null){
                     if(!objExplosion.explode()){
                         break;
                     }
@@ -196,6 +206,7 @@ public final class GameEngine {
                 }
             }
 
+            isFirstBox = true;
         }
     }
 
