@@ -152,12 +152,12 @@ public final class GameEngine {
         if(objExplosion != null){
             objExplosion.explode();
         }
-        if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
+        if(player.getPosition().equals(explosionPosition)){
             player.explode();
         }
 
         for(Monster monster : ((Level)this.game.grid(bomb.getLevelObj())).getMonsters()){
-            if(monster.getPosition().getX() == explosionPosition.getX() && monster.getPosition().getY() == explosionPosition.getY()){
+            if(monster.getPosition().equals(explosionPosition)){
                 monster.explode();
             }
         }
@@ -182,12 +182,12 @@ public final class GameEngine {
 
                 }
 
-                if(player.getPosition().getX() == explosionPosition.getX() && player.getPosition().getY() == explosionPosition.getY()){
+                if(player.getPosition().equals(explosionPosition)){
                     player.explode();
                 }
 
                 for(Monster monster : ((Level)this.game.grid(bomb.getLevelObj())).getMonsters()){
-                    if(monster.getPosition().getX() == explosionPosition.getX() && monster.getPosition().getY() == explosionPosition.getY()){
+                    if(monster.getPosition().equals(explosionPosition)){
                         monster.explode();
                     }
                 }
@@ -284,6 +284,9 @@ public final class GameEngine {
         }.start();
     }
 
+    private Direction getPathToPlayer(Level grid, Monster monster, Position position1) {
+        return Direction.random();
+    }
 
     private void update(long now) {
         Direction direction;
@@ -293,7 +296,11 @@ public final class GameEngine {
             for(Monster monster : ((Level)this.game.grid(i)).getMonsters()){
                 monster.getTimerMoveMonster().update(now);
                 if(!monster.getTimerMoveMonster().isRunning()) {
-                    direction = Direction.random();
+                    if (i==this.game.getNbLevels() && i==this.player.getInLevel()) {
+                        direction = this.getPathToPlayer( (Level)this.game.grid(i),monster,player.getPosition() );
+                    }
+                    else
+                        direction = Direction.random();
                     monster.requestMove(direction);
 
                     monster.setTimerMoveMonster(new Timer( (monster.getMonsterVelocity())*200));
@@ -306,7 +313,7 @@ public final class GameEngine {
                 monster.update(now);
 
 
-                if(monster.getInLevel() == currentLevel && monster.getPosition().getX() == this.player.getPosition().getX() && monster.getPosition().getY() == this.player.getPosition().getY())
+                if(monster.getInLevel() == currentLevel && monster.getPosition().equals(player.getPosition()))
                 {
                     player.getTimerInvincibilityTime().update(now);
                     if(!(player.getTimerInvincibilityTime().isRunning())){
@@ -315,10 +322,8 @@ public final class GameEngine {
                     }
                 }
                 else if(monster.getInLevel() == currentLevel &&
-                        monster.getPosition().getX() == player.getSaveLastPosition().getX() &&
-                        monster.getPosition().getY() == player.getSaveLastPosition().getY() &&
-                        player.getPosition().getX() == monster.getSaveLastPosition().getX() &&
-                        player.getPosition().getY() == monster.getSaveLastPosition().getY() )
+                        monster.getPosition().equals(player.getSaveLastPosition()) &&
+                        player.getPosition().equals(monster.getSaveLastPosition()))
                 {
                     player.getTimerInvincibilityTime().update(now);
                     if(!(player.getTimerInvincibilityTime().isRunning())){

@@ -105,7 +105,7 @@ public abstract class Character extends GameObject{
         if (next != null){
             return next.getIsAccessible();
         }
-        else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
+        else if(nextPos.x() < 0 || nextPos.y() < 0 || nextPos.x() >= game.grid(inLevel).width() || nextPos.y() >= game.grid(inLevel).height()){
             return false;
         }
         else{

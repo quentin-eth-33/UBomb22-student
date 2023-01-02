@@ -32,8 +32,6 @@ public class Game {
                 ((Level)(this.grid[i-1])).addMonster(monster);
             }
         }
-
-
     }
 
     public Configuration configuration() {

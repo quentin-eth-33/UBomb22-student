@@ -120,7 +120,7 @@ public class Player extends Character implements Movable, TakeVisitor {
             return next.getIsAccessible();
         }
 
-        else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
+        else if(nextPos.x() < 0 ||nextPos.y() < 0 || nextPos.x() >= game.grid(inLevel).width() || nextPos.y() >= game.grid(inLevel).height()){
             return false;
         }
         else{
@@ -159,7 +159,7 @@ public class Player extends Character implements Movable, TakeVisitor {
     public boolean boxCanMove(Position nextPos) {
         GameObject next = game.grid(inLevel).get(nextPos);
 
-        if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
+        if(nextPos.x() < 0 ||nextPos.y() < 0 || nextPos.x() >= game.grid(inLevel).width() || nextPos.y() >= game.grid(inLevel).height()){
             return false;
         }
         else if (next == null){
@@ -169,11 +169,10 @@ public class Player extends Character implements Movable, TakeVisitor {
         else{
             return false;
         }
-
     }
     @Override
     public String toString() {
-        return " PLAYER | Position X: " + this.getPosition().getX() + " | Position Y: "+this.getPosition().getY()+" | Vie: "+this.getLives();
+        return " PLAYER | Position X: " + this.getPosition().x() + " | Position Y: "+this.getPosition().y()+" | Vie: "+this.getLives();
     }
 
     @Override

@@ -27,7 +27,6 @@ public class Monster extends Character {
         super(position);
         this.setDirection(Direction.DOWN);
         this.setLives(1);
-        //TODO
         monsterVelocity =5;
         setInvincibilityTime(1000);
         timerMoveMonster = new Timer(monsterVelocity*200);
@@ -52,15 +51,13 @@ public class Monster extends Character {
     }
     @Override
     public boolean canMove(Direction direction) {
-        // Need to be updated ;-)
         Position nextPos = direction.nextPosition(getPosition());
-
         GameObject next = game.grid(inLevel).get(nextPos);
 
         if (next != null){
             return next.getCanMoveMonster();
         }
-        else if(nextPos.getX() < 0 ||nextPos.getY() < 0 || nextPos.getX() >= game.grid(inLevel).width() || nextPos.getY() >= game.grid(inLevel).height()){
+        else if(nextPos.x() < 0 ||nextPos.y() < 0 || nextPos.x() >= game.grid(inLevel).width() || nextPos.y() >= game.grid(inLevel).height()){
             return false;
         }
         else{
@@ -87,6 +84,6 @@ public class Monster extends Character {
 
     @Override
     public String toString() {
-        return " MONSTER "+this.hashCode()+ " | Position X: " + this.getPosition().getX() + " | Position Y: "+this.getPosition().getY()+" | Vie: "+this.getLives()+" | Level: "+this.getInLevel();
+        return " MONSTER "+this.hashCode()+ " | Position X: " + this.getPosition().x() + " | Position Y: "+this.getPosition().y()+" | Vie: "+this.getLives()+" | Level: "+this.getInLevel();
     }
 }

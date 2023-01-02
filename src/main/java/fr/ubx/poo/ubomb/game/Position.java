@@ -6,13 +6,10 @@ public record Position (int x, int y) {
         this(position.x, position.y);
     }
 
-    // Quentin: Ajout getteur
-    public int getX(){
-        return this.x;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Position pos)
+            return this.x == pos.x() && this.y == pos.y();
+        return false;
     }
-    public int getY(){
-        return this.y;
-    }
-
-
 }
