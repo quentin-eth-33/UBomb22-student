@@ -300,13 +300,14 @@ public final class GameEngine {
                 monster.getTimerMoveMonster().update(now);
                 if(!monster.getTimerMoveMonster().isRunning()) {
                     if (i==this.game.getNbLevels() && i==this.player.getInLevel()) {
-                        direction = this.getPathToPlayer( (Level)this.game.grid(i),monster,player.getPosition() );
+                        direction = this.getPathToPlayer( (Level)this.game.grid(i),monster,player.getPosition());
                     }
                     else
                         direction = Direction.random();
+
                     monster.requestMove(direction);
 
-                    monster.setTimerMoveMonster(new Timer( (monster.getMonsterVelocity())*200));
+                    monster.setTimerMoveMonster(new Timer( ((monster.getMonsterVelocity())*200)/monster.getInLevel()));
                     monster.getTimerMoveMonster().start();
                 }
 

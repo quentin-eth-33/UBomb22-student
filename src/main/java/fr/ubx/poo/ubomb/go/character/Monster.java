@@ -18,7 +18,7 @@ public class Monster extends Character {
         this.setDirection(Direction.DOWN);
         this.monsterVelocity = game.getConfiguration().monsterVelocity();
         this.setInvincibilityTime(game.getConfiguration().monsterInvisibilityTime());
-        this.timerMoveMonster = new Timer(monsterVelocity*200);
+        this.timerMoveMonster = new Timer((monsterVelocity*200)/getInLevel());
         this.timerMoveMonster.start();
         this.setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
@@ -29,7 +29,7 @@ public class Monster extends Character {
         this.setLives(1);
         monsterVelocity =5;
         setInvincibilityTime(1000);
-        timerMoveMonster = new Timer(monsterVelocity*200);
+        timerMoveMonster = new Timer((monsterVelocity*200)/getInLevel());
         timerMoveMonster.start();
         setTimerInvincibilityTime(new Timer(getInvincibilityTime()));
     }
