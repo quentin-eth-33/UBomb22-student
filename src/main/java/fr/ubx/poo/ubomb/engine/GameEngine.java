@@ -61,6 +61,7 @@ public final class GameEngine {
     }
 
     private void initialize() {
+        Map<Integer, List<Monster>> monsterMap = new HashMap<>();
         layer = new Pane[game.getNbLevels()];
         scenes = new Scene[game.getNbLevels()];
         for (int i = 1; i <= game.getNbLevels(); i++) {
@@ -83,6 +84,7 @@ public final class GameEngine {
                 stage.hide();
                 stage.show();
                 input = new Input(scenes[0]);
+
             }
 
             root.getChildren().add(layer[i-1]);
@@ -101,11 +103,12 @@ public final class GameEngine {
                 monster.setInLevel(i);
                 sprites.add(new SpriteMonster(layer[i-1], monster));
             }
+            monsterMap.put(i, ((Level)this.game.grid(i)).getMonsters());
 
 
         }
         sprites.add(new SpritePlayer(layer[0], player));
-
+        player.setMonsters(monsterMap);
     }
 
     void buildAndSetGameLoop() {

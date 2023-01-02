@@ -15,6 +15,9 @@ import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import javafx.geometry.Pos;
 
+import java.util.List;
+import java.util.Map;
+
 public class Player extends Character implements Movable, TakeVisitor {
 
 
@@ -25,6 +28,8 @@ public class Player extends Character implements Movable, TakeVisitor {
     private int bombRange = 1;
 
     private boolean princessFound = false;
+
+    private Map<Integer, List<Monster>> monsters;
 
 
 
@@ -158,11 +163,22 @@ public class Player extends Character implements Movable, TakeVisitor {
     }
     public boolean boxCanMove(Position nextPos) {
         GameObject next = game.grid(inLevel).get(nextPos);
+        boolean isMonster = false;
+        List<Monster> listMonster = this.monsters.get(inLevel);
+
+        for(Monster monster : listMonster){
+            if(monster.getPosition().equals(nextPos)){
+                isMonster = true;
+                break;
+            }
+        }
+
+
 
         if(nextPos.x() < 0 ||nextPos.y() < 0 || nextPos.x() >= game.grid(inLevel).width() || nextPos.y() >= game.grid(inLevel).height()){
             return false;
         }
-        else if (next == null){
+        else if (next == null && isMonster == false){
 
             return true;
         }
@@ -191,6 +207,11 @@ public class Player extends Character implements Movable, TakeVisitor {
 
     public int getBombRange() {
         return bombRange;
+    }
+
+
+    public void setMonsters(Map<Integer, List<Monster>> monsters){
+        this.monsters = monsters;
     }
 
 }
