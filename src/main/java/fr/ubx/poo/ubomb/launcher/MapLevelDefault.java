@@ -6,13 +6,13 @@ import static fr.ubx.poo.ubomb.launcher.Entity.*;
 
 public class MapLevelDefault extends MapLevel {
     private final static Entity[][] level1 = {
-            {Empty, Heart, Heart, BombNumberDec, BombNumberInc, BombRangeDec, BombRangeInc, BombNumberInc, BombNumberInc, Empty, Empty, Empty},
-            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Stone, Stone, Stone, Empty, Empty},
-            {Empty, Empty, Empty, Empty, Stone, Empty, Stone, Heart, Heart, Stone, Empty, Empty},
-            {Empty, Empty, Empty, Empty, Stone, Empty, Stone, Heart, Heart, Stone, Empty, Empty},
-            {Empty, Empty, Empty, Empty, Stone, Stone, Stone, Empty, Empty, Empty, Empty, Empty},
-            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Key, Empty, Stone, Empty, Empty},
-            {Empty, Tree, Empty, Tree, Empty, Heart, Heart, Heart, Empty, Stone, Empty, Empty},
+            {Empty, Heart, Heart, BombNumberDec, BombNumberInc, BombRangeDec, BombRangeInc, BombRangeInc, BombRangeInc, BombRangeInc, Empty, Empty},
+            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
+            {Empty, Empty, Empty, Empty, Stone, Empty, Stone, Empty, Box, Box, Box, Empty},
+            {Empty, Empty, Empty, Empty, Stone, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
+            {Empty, Empty, Empty, Empty, Stone, Empty, Box, Empty, Empty, Empty, Empty, Empty},
+            {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Stone, Empty, Empty},
+            {Empty, Tree, Empty, Tree, Empty, Heart, Empty, Box, Empty, Stone, Empty, Empty},
             {Empty, Empty, Empty, Tree, Empty, Heart, Heart, Heart, Empty, Stone, Empty, Empty},
             {Empty, Tree, Tree, Tree, Empty, Heart, Heart, Heart, Empty, Stone, Empty, Empty},
             {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
