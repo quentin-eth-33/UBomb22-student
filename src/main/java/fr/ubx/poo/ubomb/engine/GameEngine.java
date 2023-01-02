@@ -287,10 +287,6 @@ public final class GameEngine {
         }.start();
     }
 
-    private Direction getPathToPlayer(Level grid, Monster monster, Position position1) {
-        return Direction.random();
-    }
-
     private void update(long now) {
         Direction direction;
 
@@ -299,12 +295,7 @@ public final class GameEngine {
             for(Monster monster : ((Level)this.game.grid(i)).getMonsters()){
                 monster.getTimerMoveMonster().update(now);
                 if(!monster.getTimerMoveMonster().isRunning()) {
-                    if (i==this.game.getNbLevels() && i==this.player.getInLevel()) {
-                        direction = this.getPathToPlayer( (Level)this.game.grid(i),monster,player.getPosition());
-                    }
-                    else
-                        direction = Direction.random();
-
+                    direction = Direction.random();
                     monster.requestMove(direction);
 
                     monster.setTimerMoveMonster(new Timer( ((monster.getMonsterVelocity())*200)/monster.getInLevel()));
